@@ -1,0 +1,7 @@
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+ftpsync.settings
+src/config.rb
+.gitignore
