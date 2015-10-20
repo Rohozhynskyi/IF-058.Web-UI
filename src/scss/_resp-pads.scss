@@ -1,0 +1,115 @@
+/* ___________________________________________________________________________
+**
+** Responsive views
+** ___________________________________________________________________________
+*/
+
+@media #{$content-sm} {
+
+	/* _________________________________________
+	**
+	** Start .fullscreen styling.container-fluid
+	** _________________________________________
+	*/
+
+	.container-fluid {
+		padding: 0;
+	}
+
+	.row {
+		margin: 0;
+	}
+
+	.row.sides {
+		margin: 20px 15px 0 15px;
+	}
+
+	.row.sides.line {
+		margin: 0;
+		padding: 25px 15px 25px 15px;
+		background-color: $clr-light-bg;
+		@include round(0px);
+	}
+
+	.col {
+		height: 100%;
+		padding: 0;
+	}
+
+	/* ____________________________________
+	**
+	** Menu Shadow
+	** ____________________________________
+	*/
+	.shadow {
+		@include drop-shadow(0px, 1px, 3px, 0px, .10);
+		z-index: 100;
+	}
+
+	.fullscreen {
+		height: 100%;
+	}
+
+	/* ____________________________________
+	**
+	** Start vertical navbar styles
+	** ____________________________________
+	*/
+
+	.side-nav {
+		height: 100%;
+		border-bottom: 1px solid $clr-light-bg;
+	}
+
+	.side-nav .navbar .navbar-collapse {
+		padding: 0;
+		max-height: none;
+	}
+
+	.navbar {
+		margin-bottom: 0;
+	}
+
+	.navbar-default {
+		border: none;
+		background-image: none;
+		background-color: $clr-bg-dblue;
+
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+
+		-webkit-box-shadow: none;
+		-moz-box-shadow: none;
+		box-shadow: none;
+
+		height: 100%;
+	}
+
+	.navbar-default .navbar-nav > li > a {
+		color: $clr-text-yellow;
+	}
+
+	.navbar-default .navbar-nav > .active > a,
+	.navbar-default .navbar-nav > .open > a {
+		background-image: none;
+		background-color: $WHITE;
+		color: $clr-hover-lblue;
+		&:hover,
+		&:active {
+			background-color: $WHITE;
+		}
+	}
+
+	.navbar-default .navbar-nav > li:hover {
+		background-color: $clr-hover-lblue;
+	}
+
+	.navbar-default .navbar-brand {
+		padding-left: 30px;
+		text-align: right;
+		display: block;
+		color: $clr-text-yellow;
+	}
+
+}// END @media content-md

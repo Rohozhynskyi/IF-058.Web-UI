@@ -1,0 +1,25 @@
+/* ___________________________________________________________________________
+**
+** Project Buttons
+** ___________________________________________________________________________
+*/
+
+.btn-yellow {
+	font-weight: bold;
+	color: $WHITE;
+	background-color: $clr-text-yellow;
+	@include transition(all, .4s);
+
+	&:hover {
+		color: $clr-hover-lblue;
+		@include inner-shadow(0px, 0px, 9px, 0px, 167,171,164,.35);
+	}
+}
+
+span.clr-primary {
+	color: $clr-primary-color;
+}
+
+span.clr-secondary {
+	color: $clr-secondary-color;
+}

@@ -1,0 +1,20 @@
+// Core variables and mixins
+@import '_variables.scss';
+@import '_mixins.scss';
+
+// Typography Styles
+@import '_typography.scss';
+
+// UI Elements Styles
+@import '_ui-elements.scss';
+@import '_forms.scss';
+
+// Layout styles
+@import '_template.scss';
+
+// Responsive styles for mobile first structure
+@import '_resp-mobile.scss';
+@import '_resp-pads.scss';
+@import '_resp-desktop.scss';
+
+

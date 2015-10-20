@@ -1,0 +1,41 @@
+/* ___________________________________________________________________________
+**
+** Project variables
+** ___________________________________________________________________________
+*/
+
+//Font Sizes
+$body-font-size: 14px;
+$baseline: ($body-font-size * 1.5);
+$theme-margin: ($baseline * 3);
+
+//Font Families
+$txt-headline: 'Ubuntu Condensed', Helvetica, Arial, sans-serif;
+$txt-regular: 'Noto Serif', 'Times New Roman', Times, serif;
+$txt-light: 'Open Sans Condensed', sans-serif;
+
+//Theme Colors
+$nav_color: #069740; //Color based on main scss file
+
+$clr-primary-color: $nav_color;
+$clr-secondary-color: #84ccc6;
+$clr-border: #c6c6c6;
+$clr-light-bg: #f0efe8;
+$clr-light-bg-text: #c7c5b9;
+$clr-regular-text: #575757;
+$clr-light-text: #d2d2d2;
+$clr-headings: #323232;
+$clr-light-white: rgba(255,255,255,.45);
+
+$clr-bg-dblue: rgba(0,149,178,1);
+$clr-hover-lblue: rgba(42,220,255,1);
+$clr-light-border: #E2E2E2;
+$clr-text-yellow: rgba(255,217,14,1);
+
+$WHITE: rgba(255,255,255,1);
+$BLACK: rgba(0,0,0,1);
+
+//Responsive Content Variables
+$content-xs: 'only screen and (max-width : 767px)';// for mobiles
+$content-sm: 'only screen and (min-width : 768px)';// for pads
+$content-md: 'only screen and (min-width : 992px)';// for desktops and >1200px

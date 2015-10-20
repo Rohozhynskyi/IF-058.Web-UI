@@ -1,0 +1,62 @@
+/* ___________________________________________________________________________
+**
+** Project typography
+** ___________________________________________________________________________
+*/
+
+html,
+body {
+	height:100%;
+}
+
+body {
+	color: ($clr-regular-text);
+	font: ($body-font-size/$baseline) $txt-regular;
+
+	-webkit-font-smoothing: antialiased;
+}
+
+p {
+	margin: 0 0 $baseline 0;
+
+	&.narrow-p {
+		width: 75%;
+	}
+
+		a {
+			font-style: italic;
+		}
+}
+
+a {
+	font-family: $txt-headline;
+	color: $clr-primary-color;
+	&:hover {
+		color: $clr-secondary-color;
+	}
+}
+
+ul,
+ol,
+li {
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: $txt-headline;
+	color: $clr-headings;
+	margin: 0;
+}
+
+h1 { font-size: 48px; line-height: 1.2; margin-bottom: $baseline/1.8; color: $clr-text-yellow;}
+h2 { font-size: 36; line-height: 1.3; margin-bottom: $baseline/1.35;}
+h3 { font-size: 28; line-height: 1.4; color: $clr-bg-dblue;}
+h4 { font-size: 24; line-height: 1.4; text-transform: uppercase; letter-spacing: 5px;}
+h5 { font-size: 20; line-height: 1.4;}
+h6 { font-family: $txt-light; font-size: 16; line-height: 1.4;}
