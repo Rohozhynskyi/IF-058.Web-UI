@@ -1,0 +1,196 @@
+<div class="container-fluid">
+	<div class="row"
+			 ng-controller="addStudentCtrl">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h1>Adding a new student</h1>
+			<form name="addRecord"
+									novalidate
+									ng-submit="addNewStudent(newStudent)">
+
+				<div class="form-group">
+					<label class="sr-only" for="name">First Name</label>
+					<input type="text"
+								 name="studFirstName"
+								 id="name"
+								 class="form-control"
+								 aria-describedby="helpName"
+								 placeholder="John"
+								 tabindex="1"
+								 ng-minlength="2"
+								 ng-maxlength="50"
+								 ng-model="newStudent.student_fname"
+								 required>
+
+					<!-- Error message for Student's First Name -->
+					<span id="helpName"
+								ng-show="addRecord.studFirstName.$invalid && addRecord.studFirstName.$dirty"
+								class="help-block error">{{ getError(addRecord.studFirstName.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="secname">Second Name</label>
+					<input type="text"
+								 name="studSecondName"
+								 id="secname"
+								 class="form-control"
+								 aria-describedby="helpSecName"
+								 placeholder="Drake"
+								 tabindex="2"
+								 ng-minlength="2"
+								 ng-maxlength="50"
+								 ng-model="newStudent.student_name"
+								 required>
+
+					<!-- Error message for Student's Second Name -->
+					<span id="helpSecName"
+								ng-show="addRecord.studSecondName.$invalid && addRecord.studSecondName.$dirty"
+								class="help-block error">{{ getError(addRecord.studSecondName.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="surname">Last Name</label>
+					<input type="text"
+								 name="studSurname"
+								 id="surname"
+								 class="form-control"
+								 aria-describedby="helpSurname"
+								 placeholder="Smith"
+								 tabindex="3"
+								 ng-minlength="2"
+								 ng-maxlength="50"
+								 ng-model="newStudent.student_surname"
+								 required>
+
+					<!-- Error message for Student's Surname -->
+					<span id="helpSurname"
+								ng-show="addRecord.studSurname.$invalid && addRecord.studSurname.$dirty"
+								class="help-block error">{{ getError(addRecord.studSurname.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="username">User Name</label>
+					<input type="text"
+								 name="studUsername"
+								 id="username"
+								 class="form-control"
+								 aria-describedby="helpUsername"
+								 placeholder="e.g. test-user"
+								 tabindex="4"
+								 ng-minlength="4"
+								 ng-maxlength="32"
+								 ng-model="newStudent.username"
+								 required>
+
+					<!-- Error message for Student's Username -->
+					<span id="helpUsername"
+								ng-show="addRecord.studUsername.$invalid && addRecord.studUsername.$dirty"
+								class="help-block error">{{ getError(addRecord.studUsername.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="password">User Password</label>
+					<input type="password"
+								 name="studUserPassword"
+								 id="password"
+								 class="form-control"
+								 aria-describedby="helpPassword"
+								 tabindex="5"
+								 ng-maxlength="64"
+								 ng-model="newStudent.password"
+								 required>
+
+					<!-- Error message for Student's User Password -->
+					<span id="helpPassword"
+								ng-show="addRecord.studUserPassword.$invalid && addRecord.studUserPassword.$dirty"
+								class="help-block error">{{ getError(addRecord.studUserPassword.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="confpassword">Confirm Password</label>
+					<input type="password"
+								 name="studConfPassword"
+								 id="confpassword"
+								 class="form-control"
+								 aria-describedby="helpConfPassword"
+								 tabindex="6"
+								 ng-maxlength="64"
+								 ng-model="newStudent.password_confirm"
+								 required>
+
+					<!-- Error message for Student's User Password Confiramtion -->
+					<span id="helpConfPassword"
+								ng-show="addRecord.studConfPassword.$invalid && addRecord.studConfPassword.$dirty"
+								class="help-block error">{{ getError(addRecord.studConfPassword.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="email">Email Address</label>
+					<input type="email"
+								 name="studentEmail"
+								 id="email"
+								 class="form-control"
+								 aria-describedby="helpEmail"
+								 placeholder="myemail@site.com"
+								 tabindex="7"
+								 ng-model="newStudent.email"
+								 required>
+
+					<!-- Error message for EMAIL -->
+					<span id="helpEmail"
+								ng-show="addRecord.studentEmail.$invalid && addRecord.studentEmail.$dirty"
+								class="help-block error">{{ getError(addRecord.studentEmail.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="gradebook">Gradebook Code</label>
+					<input type="text"
+								 name="studGradebook"
+								 id="gradebook"
+								 class="form-control"
+								 aria-describedby="helpGradebook"
+								 placeholder="AH-894893"
+								 tabindex="8"
+								 ng-minlength="5"
+								 ng-maxlength="20"
+								 ng-model="newStudent.gradebook_id"
+								 required>
+
+					<!-- Error message for Student's Gradebook -->
+					<span id="helpGradebook"
+								ng-show="addRecord.studGradebook.$invalid && addRecord.studentGradebook.$dirty"
+								class="help-block error">{{ getError(addRecord.studGradebook.$error) }}
+					</span>
+
+				</div>
+				<div class="form-group">
+					<label class="sr-only" for="photo">Student's Photo</label>
+					<input type="file"
+								 name="studPhoto"
+								 id="photo"
+								 class="form-control"
+								 aria-describedby="helpPhoto"
+								 tabindex="9"
+								 ng-model="newStudent.photo"
+								 accept="image/*">
+
+					<span id="helpPhoto"
+								ng-show="addRecord.studPhoto.$invalid && addRecord.studentPhoto.$dirty"
+								class="help-block error">{{ getError(addRecord.studPhoto.$error) }}
+					</span>
+
+				</div>
+				<button type="submit"
+								class="btn btn-primary"
+								tabindex="10"
+								ng-disabled="addRecord.$invalid">Submit</button>
+			</form>
+		</div><!-- END col -->
+	</div><!-- END row -->
+</div>

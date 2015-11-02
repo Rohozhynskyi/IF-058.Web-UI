@@ -1,0 +1,11 @@
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+ftpsync.settings
+libs/
+build/
+src/config.rb
+.idea/
+build/
+npm-debug.log

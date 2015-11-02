@@ -1,0 +1,15 @@
+<div class="panel panel-success">
+							<!-- Default panel contents -->
+<div class="panel-heading">
+	<span>Додати групу</span></div>
+<form class="form-inline" role="form">
+	<div class="form-group">
+		<input type="text" class="form-control" name="group_name" placeholder="Назва групи" ng-model="groupName">
+	</div>
+	<div class="form-group">
+		<select class="form-control" ng-options="facultys.faculty_id as facultys.faculty_name for facultys in facultys" name="faculty" ng-model="facultyId">
+		</select>
+		<button type="button" class="btn btn-success" ng-click="addGroupAction()">Додати</button>
+	</div>
+</form>
+</div>
