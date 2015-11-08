@@ -172,9 +172,27 @@ body, html, .container-fluid, .nav-row {
 .usCenter {
   text-align: center;
 }
-.badge{
+
+.badge {
   background-color: #3c763d;
 }
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}
+
+.table>.usCenter>tr>td {
+  text-align: center;
+}
+
+.table>.usCenter>tr>th {
+  text-align: center;
+}
+
+.width-max{
+  width:100% !important;
+}
+
 @media (min-width: 600px) {
   .top-nav ul {
 	margin:10px auto;
@@ -199,6 +217,9 @@ body, html, .container-fluid, .nav-row {
   }
 }
 
+button.marginTop {
+  margin-top: 0;
+}
 
 /* ___________________________________
  *
@@ -214,4 +235,45 @@ body, html, .container-fluid, .nav-row {
 .table>tbody>tr>td.td-photo {
   width: 15%;
   padding: 0;
+}
+
+.add-button {
+  margin: 20px 0 20px auto;
+}
+
+// Create input type file button
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label.ilabel {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: black;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.inputfile:focus,
+label.ilabel {
+  background-color: red;
+}
+
+.inputfile:focus,
+label.ilabel {
+  outline: none;
+}
+
+.file-name {
+  font-style: bold;
+}
+
+.well.well-stud {
+  margin: 80px auto 20px auto;
 }

@@ -1,3 +1,4 @@
+;
 app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entitiesSrvc) {
 
     $scope.thisEntity = "AdminUser";

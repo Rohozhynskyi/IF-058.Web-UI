@@ -15,11 +15,11 @@ var dependencies = {
     return $http.get(baseUrl + dep + '/getRecords')
       .then(function(response) {
         var entityForInject = response.data;
-        
+
 
       var entityForInjectArray = [];
       var entityForInjectObject = {};
-      
+
       for (row in entityForInject) {
         entityForInjectArray[+entityForInject[row][entityId]] = entityForInject[row][entityName];
         entityForInjectObject[entityForInject[row][entityId]] = entityForInject[row][entityName];
@@ -39,15 +39,13 @@ var dependencies = {
   return {
 
     getEntitiesByEntity: function (entity, parentEntity, id) {
-      //console.log("get works")
       return $http.get(baseUrl + entity + '/get'+entity[0].toUpperCase()+entity.slice(1) + 's' + 'By' + parentEntity[0].toUpperCase()+parentEntity.slice(1) +'/' + id)
         .then(fulfilled, rejected);
-      console.log("get works")
     },
+
     getRecordsRangeByEntity: function (entity, parentEntity, id) {
       return $http.get(baseUrl + entity + '/getRecordsRangeBy' + parentEntity[0].toUpperCase()+parentEntity.slice(1) +'/'+ id + '/' + '100/' + '0')
         .then(fulfilled, rejected);
-      console.log("get works")
     },
 
     getEntities: function (entity) {
@@ -60,7 +58,7 @@ var dependencies = {
             for (depId in depArr) {
               if (depId != (depArr.length - 1)) {
                 getDependecies(data, depArr[depId]);
-              } 
+              }
               else {
                 return getDependecies(data, depArr[depId]);
               }
@@ -81,7 +79,6 @@ var dependencies = {
     },
 
     updateEntity: function (entity, id, data) {
-      console.log(data, "!!!!!!!!!!!!!!!");
       return $http.post(baseUrl + entity + '/update/' + id, data)
       .then(fulfilled, rejected);
     }

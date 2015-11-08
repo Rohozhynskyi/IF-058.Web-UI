@@ -12,6 +12,16 @@ app.controller('entitiesCtrl', ['$scope', 'entitiesSrvc', '$stateParams', '$time
       speciality_name: "",
       speciality_code: ""
     },
+    "student": {
+      // Students Values
+      gradebook_id: "",
+      student_surname: "",
+      student_name: "",
+      student_fname: "",
+      group_id: "",
+      plain_password: "",
+      photo: ""
+    },
     "subject": {
       subject_name: "",
       subject_description: ""

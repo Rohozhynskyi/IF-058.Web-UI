@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="loginCtrl">
     <div class="row nav-row">
         <div class="col-md-2 pad"> </div>
         <div class="col-md-2 left-panel hidden-sm hidden-xs">
@@ -65,7 +65,7 @@
                             <div class="input-group margin">
                     <span id="basic-addon1" class="input-group-addon">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            user_name
+                            <!--user_name--> {{detectUser}}
                             </span>
                                 <button type="button" class="btn btn-success" title="Вихід"><span class="glyphicon glyphicon-share-alt"></span></button>
                             </div><!-- /input-group -->

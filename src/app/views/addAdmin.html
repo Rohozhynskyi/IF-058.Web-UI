@@ -1,110 +1,75 @@
 <div entities-drct="AdminUser">
-	<div class="wrapper panel-success no-border">
-
-		<!-- The button and form to add Entity -->
-		<div class="col-md-12">
-			<div>
-				<br/>
-				<button class="btn btn-primary pull-right" ng-click="showAddForm()"><span class="glyphicon glyphicon-plus"></span></button>
-				<br/><br/><br/>
-				<div class="well" ng-show="showingAdd">
-					<div class=" row">
-						<form name="addForm" class="form-inline" role='form' novalidate>
-							<div class="col-md-3">
-								<input class="form-control width-max" placeholder="Введіть логін" type='text' ng-model="newEntity.username" required
-										>
-							</div>
-							<div class="col-md-3">
-								<input class="form-control width-max" placeholder="Введіть елетронну пошту" type='email' ng-model="newEntity.email" required>
-							</div>
-							<div class="col-md-2">
-								<input class="form-control width-max" placeholder="Введіть пароль" type='password' ng-model="newEntity.password" required>
-							</div>
-							<div class="col-md-2">
-								<input class="form-control width-max" placeholder="Повторіть пароль" type='password' ng-model="newEntity.password_confirm" required>
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-success pull-right width-max" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
-							</div>
-						</form>
-					</div>
-				</div>
-
-
-				<div ng-show="!entities">{{noData}}</div>
-
-				<!-- The table for list of Entities -->
-				<table ng-show="entities" class="table table-hover .table-condensed">
-					<thead>
-					<tr>
-						<th class="col-md-1">№</th>
-						<th class="col-md-2">Логін</th>
-						<th class="col-md-2">Електронна пошта</th>
-						<th class="col-md-2"></th>
-						<th class="col-md-2"></th>
-						<th class="col-md-2 usCenter">Дії</th>
-					</tr>
-					</thead>
-					<tbody>
-					<tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities">
-						<!-- read-only cells -->
-						<td class="col-md-1">{{$index + 1}}</td>
-						<td class="col-md-2">{{entity.username}}</td>
-						<td class="col-md-2">{{entity.email}}</td>
-						<td class="col-md-2"></td>
-						<td class="col-md-2"></td>
-						<td class="col-md-2 usCenter">
-							<button class="btn btn-info" ng-click="showEditForm(entity)">
-								<span class="glyphicon glyphicon-pencil"></span></button>
-							<button class="btn btn-danger col-md-offset-1" data-toggle="modal" data-target="#deleteModal" ng-click="activateEntity(entity)">
-								<span class="glyphicon glyphicon-trash"></span></button>
-						</td>
-					</tr>
-					<tr ng-if="entity == editingEntity" ng-repeat-end="">
-						<td>{{$index + 1}}</td>
-						<td><input class="form-control width-max" type='text' ng-model="editedEntity.new_username"></td>
-						<td><input class="form-control width-max" type='email' ng-model="editedEntity.new_email"></td>
-						<td><input class="form-control width-max" placeholder="Введіть пароль" type='password' ng-model="editedEntity.new_password"></td>
-						<td><input class="form-control width-max" placeholder="Повторіть пароль" type='password' ng-model="editedEntity.new_password_confirm"></td>
-						<td class="usCenter">
-							<button class="btn btn-success" ng-click="editEntity(entity)">
-								<span class="glyphicon glyphicon-ok"></span></button>
-							<button class="btn btn-warning col-md-offset-1" ng-click="showEditForm(entity)">
-								<span class="glyphicon glyphicon-remove"></span></button>
-						</td>
-					</tr>
-					</tbody>
-				</table>
-
-				<!-- The modal to confirm removing of Entity -->
-				<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="deleteModal">
-					<div class="modal-dialog modal-sm">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">Видалити запис?</h4>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="activateEntity()">Скасувати</button>
-								<button type="button" class="btn btn-danger" ng-click="removeEntity()" data-dismiss="modal">Видалити</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="informModal">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">{{infMsg}}</h4>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">ОК</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			</div>
-		</div>
-	</div>
+  <div class="wrapper panel-success no-border">
+    <!-- The button and form to add Entity -->
+    <div class="col-md-12">
+      <div>
+        <br/>
+        <show-add-form-button-drct></show-add-form-button-drct>
+        <br/><br/><br/>
+        <div class="well" ng-show="showingAdd">
+          <div class=" row">
+            <form name="addForm" class="form-inline" role='form' novalidate>
+              <div class="col-md-3">
+                <input class="form-control width-max" placeholder="Введіть логін" type='text' ng-model="newEntity.username" required
+                    >
+              </div>
+              <div class="col-md-3">
+                <input class="form-control width-max navbar-btn" placeholder="Введіть елетронну пошту" type='email' ng-model="newEntity.email" required>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="newEntity.password" required>
+              </div>
+              <div class="col-md-2">
+                <input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="newEntity.password_confirm" required>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success pull-right width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div ng-show="!entities">{{noData}}</div>
+        <!-- The table for list of Entities -->
+        <table ng-show="entities" class="table table-hover .table-condensed">
+          <thead>
+          <tr>
+            <th class="col-md-1">№</th>
+            <th class="col-md-2">Логін</th>
+            <th class="col-md-2">Електронна пошта</th>
+            <th class="col-md-2"></th>
+            <th class="col-md-2"></th>
+            <th class="col-md-2 usCenter">Дії</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities">
+            <!-- read-only cells -->
+            <td class="col-md-1">{{$index + 1}}</td>
+            <td class="col-md-2">{{entity.username}}</td>
+            <td class="col-md-2">{{entity.email}}</td>
+            <td class="col-md-2"></td>
+            <td class="col-md-2"></td>
+            <td class="col-md-2 usCenter">
+              <actions-buttons-drct></actions-buttons-drct>
+            </td>
+          </tr>
+          <tr ng-if="entity == editingEntity" ng-repeat-end="">
+            <td>{{$index + 1}}</td>
+            <td><input class="form-control width-max navbar-btn" type='text' ng-model="editedEntity.new_username"></td>
+            <td><input class="form-control width-max navbar-btn" type='email' ng-model="editedEntity.new_email"></td>
+            <td><input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="editedEntity.new_password"></td>
+            <td><input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="editedEntity.new_password_confirm"></td>
+            <td class="usCenter">
+              <editing-buttons-drct></editing-buttons-drct>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <!-- The modal to confirm removing of Entity -->
+        <deleting-modal-drct></deleting-modal-drct>
+        <!-- The modal to inform about error from server -->
+        <inform-modal-drct></inform-modal-drct>
+      </div>
+    </div>
+  </div>
 </div>

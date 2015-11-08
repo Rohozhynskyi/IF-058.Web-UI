@@ -68,9 +68,9 @@ gulp.task("vendor-fonts", function() {
 gulp.task("vendor-css", function() {
 		// Merging all vendor less files
 		gulp.src([
-			'bower_components/bootstrap/less/bootstrap.less'
+			'bower_components/bootstrap/dist/css/bootstrap.css',
+			'bower_components/bootstrap/dist/css/bootstrap-theme.css'
 		])
-		.pipe(less())
 		.pipe(concat('vendor.css'))
 		.pipe(gulp.dest(path.build.css));
 });
@@ -172,9 +172,9 @@ gulp.task("dist-js", function() {
 gulp.task("dist-ven-css", function() {
 		// First of all we need to compile LESS vendor files
 		gulp.src([
-			'bower_components/bootstrap/less/bootstrap.less'
+			'bower_components/bootstrap/dist/css/bootstrap.css',
+			'bower_components/bootstrap/dist/css/bootstrap-theme.css'
 		])
-			.pipe(less())
 			.pipe(concat('vendor.css'))
 			.pipe(cssmin())
 			.pipe(gulp.dest(path.dist.css));
@@ -219,6 +219,15 @@ gulp.task('dist', ['dist-js', 'dist-ven-css', 'dist-sass', 'dist-html', 'dist-im
  *
  * _________________________________________________________________________
 */
+
+gulp.task('ext-move', ['build', 'move', 'ext-watch']);
+
+gulp.task('ext-watch', function() {
+	gulp.watch(path.watch.html, ['build-html', 'ext-move']); // END OF WORK
+	gulp.watch(path.watch.css, ['build-sass', 'ext-move']);
+	gulp.watch(path.watch.js, ['build-all-js', 'ext-move']);
+	gulp.watch(path.watch.img, ['build-img', 'ext-move']);
+});
 
 var config = {
 	host: '192.168.56.101',

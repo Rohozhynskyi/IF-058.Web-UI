@@ -10,4 +10,3 @@ app.directive('entitiesDrct', ['entitiesSrvc', function(entitiesSrvc){
     // template: ""
   };
 }]);
-

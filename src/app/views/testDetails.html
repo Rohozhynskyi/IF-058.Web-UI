@@ -1,28 +1,27 @@
 <div entities-drct="TestDetail">
   <div class="wrapper panel-success no-border">
         <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Параметри тесту </div>
-
         <!-- The button and form to add Entity -->
         <div class="col-md-12">
           <div>
             <br/>
-            <button class="btn btn-primary pull-right" ng-click="showAddForm()"><span class="glyphicon glyphicon-plus"></span></button>
+            <show-add-form-button-drct></show-add-form-button-drct>
             <br/><br/><br/>
             <div class="well" ng-show="showingAdd">
                 <div class=" row">
                   <form name="addForm" class="form-inline" role='form' novalidate>
                     <div class="col-md-3">
-                      <input type='number' class="form-control width-max" min="1" step="1" max="9999" placeholder="Рівень завдань" ng-model="newEntity.level" required
+                      <input type='text' class="form-control width-max navbar-btn" placeholder="Рівень завдань" ng-model="newEntity.level" required
                       >
                     </div>
                     <div class="col-md-3">
-                      <input type='number' class="form-control width-max" min="1" step="1" max="9999" placeholder="Кількість завдань" ng-model="newEntity.tasks" required>
+                      <input type='text' class="form-control width-max navbar-btn" placeholder="Кількість завдань" ng-model="newEntity.tasks" required>
                     </div>
                     <div class="col-md-3">
-                      <input type='number' class="form-control width-max" min="1" step="1" max="9999" placeholder="Кількість балів" ng-model="newEntity.rate" required>
+                      <input type='text' class="form-control width-max navbar-btn" placeholder="Кількість балів" ng-model="newEntity.rate" required>
                     </div>
                     <div class="col-md-2 pull-right ">
-                      <button type="submit" class="btn btn-success width-max" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
+                      <button type="submit" class="btn btn-success width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
                     </div>
                   </form>
                 </div>
@@ -33,80 +32,48 @@
 
 <!-- The table for list of Entities -->
             <table ng-show="entities" class="table table-hover .table-condensed">
-                <thead>
+                <thead class="usCenter">
                   <tr>
                     <th>№</th>
-                    <th class="usCenter">Рівень завдань</th>
-                    <th class="usCenter">Кількість завдань</th>
-                    <th class="usCenter">Кількість балів</th>
-                    <th class="usCenter">Дії</th>
+                    <th class="col-md-3">Рівень завдань</th>
+                    <th class="col-md-3">Кількість завдань</th>
+                    <th class="col-md-4">Кількість балів</th>
+                    <th class="col-md-2">Дії</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="usCenter">
                   <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities" id="row{{$index + 1}}">
                     <!-- read-only cells -->
-                    <td class="col-md-1">{{$index + 1}}</td>
-                    <td class="usCenter">{{entity.level}}</td>
-                    <td class="usCenter">{{entity.tasks}}</td>
-                    <td class="usCenter">{{entity.rate}}</td>
-                    <td class="usCenter col-md-2">
-                      <button class="btn btn-info" ng-click="showEditForm(entity)">
-                        <span class="glyphicon glyphicon-pencil"></span></button>
-                      <button class="btn btn-danger col-md-offset-1" data-toggle="modal" data-target="#deleteModal" ng-click="activateEntity(entity)">
-                        <span class="glyphicon glyphicon-trash"></span></button>
+                    <td>{{$index + 1}}</td>
+                    <td class="col-md-3">{{entity.level}}</td>
+                    <td class="col-md-3">{{entity.tasks}}</td>
+                    <td class="col-md-4">{{entity.rate}}</td>
+                    <td class="col-md-2">
+                      <actions-buttons-drct></actions-buttons-drct>
                     </td>
                   </tr>
                   <tr ng-if="entity == editingEntity" ng-repeat-end="">
                     <td>{{$index + 1}}</td>
-                    <td><input class="form-control width-max" ng-model="editedEntity.new_level"></td>
-                    <td><input class="form-control width-max" ng-model="editedEntity.new_tasks"></td>
-                    <td><input class="form-control width-max" ng-model="editedEntity.new_rate"></td>
-                    <td class="usCenter">
-                      <button class="btn btn-success" ng-click="editEntity(entity)">
-                        <span class="glyphicon glyphicon-ok"></span></button>
-                      <button class="btn btn-warning col-md-offset-1" ng-click="showEditForm(entity)">
-                        <span class="glyphicon glyphicon-remove"></span></button>
+                    <td class="col-md-3"><input class="form-control width-max navbar-btn" ng-model="editedEntity.new_level"></td>
+                    <td class="col-md-3"><input class="form-control width-max navbar-btn" ng-model="editedEntity.new_tasks"></td>
+                    <td class="col-md-4"><input class="form-control width-max navbar-btn" ng-model="editedEntity.new_rate"></td>
+                    <td class="col-md-2">
+                      <editing-buttons-drct></editing-buttons-drct>
                     </td>
                   </tr>
                   <tr test-details-stat-drct>
-                    <td class="col-md-1"><strong>Всього:</strong></td>
-                    <td class="usCenter"><strong>{{entities.length}}</strong></td>
-                    <td class="usCenter"><strong>{{totalCountTasks}}</strong></td>
-                    <td class="usCenter"><strong>{{totalCountRate}}</strong></td>
-                    <td></td>
+                    <td><strong>Всього:</strong></td>
+                    <td class="col-md-3"><strong>{{entities.length}}</strong></td>
+                    <td class="col-md-3"><strong>{{totalCountTasks}}</strong></td>
+                    <td class="col-md-4"><strong>{{totalCountRate}}</strong></td>
+                    <td class="col-md-2"></td>
                   </tr>
                 </tbody>
             </table>
-
             <!-- The modal to confirm removing of Entity -->
-            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="deleteModal">
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Видалити запис?</h4>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="activateEntity()">Скасувати</button>
-                    <button type="button" class="btn btn-danger" ng-click="removeEntity()" data-dismiss="modal">Видалити</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="informModal">
-              <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">{{infMsg}}</h4>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ОК</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            <deleting-modal-drct></deleting-modal-drct>
+            <!-- The modal to inform about error from server -->
+            <inform-modal-drct></inform-modal-drct>
           </div>
         </div>
       </div>
