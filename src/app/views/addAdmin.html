@@ -10,17 +10,18 @@
           <div class=" row">
             <form name="addForm" class="form-inline" role='form' novalidate>
               <div class="col-md-3">
-                <input class="form-control width-max" placeholder="Введіть логін" type='text' ng-model="newEntity.username" required
-                    >
+
+                <input class="form-control width-max navbar-btn" placeholder="Введіть логін" type='text' ng-model="newEntity.username" ng-minlength="4" required>
+
               </div>
               <div class="col-md-3">
                 <input class="form-control width-max navbar-btn" placeholder="Введіть елетронну пошту" type='email' ng-model="newEntity.email" required>
               </div>
               <div class="col-md-2">
-                <input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="newEntity.password" required>
+                <input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="newEntity.password" ng-minlength="4" required>
               </div>
               <div class="col-md-2">
-                <input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="newEntity.password_confirm" required>
+                <input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="newEntity.password_confirm" ng-minlength="4"  required compare-to="newEntity.password">
               </div>
               <div class="col-md-2">
                 <button type="submit" class="btn btn-success pull-right width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
@@ -34,15 +35,21 @@
           <thead>
           <tr>
             <th class="col-md-1">№</th>
-            <th class="col-md-2">Логін</th>
-            <th class="col-md-2">Електронна пошта</th>
+            <th class="col-md-2 clickable" ng-click="sortType = 'name'; sortReverse = !sortReverse">Логін
+              <i ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+              <i ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+            </th>
+            <th class="col-md-2 clickable" ng-click="sortType = 'email'; sortReverse = !sortReverse">Електронна пошта
+              <i ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+              <i ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+            </th>
             <th class="col-md-2"></th>
             <th class="col-md-2"></th>
             <th class="col-md-2 usCenter">Дії</th>
           </tr>
           </thead>
-          <tbody>
-          <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities">
+          <tbody name="fuck">
+          <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
             <!-- read-only cells -->
             <td class="col-md-1">{{$index + 1}}</td>
             <td class="col-md-2">{{entity.username}}</td>
@@ -55,10 +62,10 @@
           </tr>
           <tr ng-if="entity == editingEntity" ng-repeat-end="">
             <td>{{$index + 1}}</td>
-            <td><input class="form-control width-max navbar-btn" type='text' ng-model="editedEntity.new_username"></td>
+            <td><input class="form-control width-max navbar-btn" type='text' ng-model="editedEntity.new_username" ng-minlength="4"></td>
             <td><input class="form-control width-max navbar-btn" type='email' ng-model="editedEntity.new_email"></td>
-            <td><input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="editedEntity.new_password"></td>
-            <td><input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="editedEntity.new_password_confirm"></td>
+            <td><input class="form-control width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="editedEntity.new_password" ng-minlength="4"></td>
+            <td><input class="form-control width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="editedEntity.new_password_confirm" ng-minlength="4"></td>
             <td class="usCenter">
               <editing-buttons-drct></editing-buttons-drct>
             </td>
@@ -69,6 +76,7 @@
         <deleting-modal-drct></deleting-modal-drct>
         <!-- The modal to inform about error from server -->
         <inform-modal-drct></inform-modal-drct>
+
       </div>
     </div>
   </div>

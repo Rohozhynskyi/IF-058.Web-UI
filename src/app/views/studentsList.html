@@ -1,8 +1,8 @@
-<div class="container-fluid">
+<div class="container-fluid"
+		 ng-controller="getStudentsCtrl">
 
 <!-- Student Add form HERE -->
-	<div class="row"
-			 ng-controller="addStudentCtrl">
+	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 		<button class="btn btn-sm btn-primary pull-right add-button" ng-click="showAddForm()">
@@ -16,17 +16,25 @@
 
 					<div class="form-group">
 						<label class="sr-only" for="name">First Name</label>
-						<input type="text"
-									 name="studFirstName"
-									 id="name"
-									 class="form-control"
-									 aria-describedby="helpName"
-									 placeholder="John"
-									 tabindex="1"
-									 ng-minlength="2"
-									 ng-maxlength="50"
-									 ng-model="newStudent.student_fname"
-									 required>
+						<div class="input-group">
+							<input type="text"
+										 name="studFirstName"
+										 id="name"
+										 class="form-control"
+										 aria-describedby="helpName"
+										 placeholder="John"
+										 tabindex="1"
+										 ng-minlength="2"
+										 ng-maxlength="50"
+										 ng-model="newStudent.student_fname"
+										 ng-model-option="{ updateOn: 'default', debounce: { default: 500} }"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, enter student's FIRST NAME. You may use from 2 to 50 latin characters without special symbols or spaces."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's First Name -->
 						<span id="helpName"
@@ -37,17 +45,24 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="secname">Second Name</label>
-						<input type="text"
-									 name="studSecondName"
-									 id="secname"
-									 class="form-control"
-									 aria-describedby="helpSecName"
-									 placeholder="Drake"
-									 tabindex="2"
-									 ng-minlength="2"
-									 ng-maxlength="50"
-									 ng-model="newStudent.student_name"
-									 required>
+						<div class="input-group">
+							<input type="text"
+										 name="studSecondName"
+										 id="secname"
+										 class="form-control"
+										 aria-describedby="helpSecName"
+										 placeholder="Drake"
+										 tabindex="2"
+										 ng-minlength="2"
+										 ng-maxlength="50"
+										 ng-model="newStudent.student_name"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, enter student's SECOND NAME. You may use from 2 to 50 latin characters without special symbols or spaces."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's Second Name -->
 						<span id="helpSecName"
@@ -58,17 +73,24 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="surname">Last Name</label>
-						<input type="text"
-									 name="studSurname"
-									 id="surname"
-									 class="form-control"
-									 aria-describedby="helpSurname"
-									 placeholder="Smith"
-									 tabindex="3"
-									 ng-minlength="2"
-									 ng-maxlength="50"
-									 ng-model="newStudent.student_surname"
-									 required>
+						<div class="input-group">
+							<input type="text"
+										 name="studSurname"
+										 id="surname"
+										 class="form-control"
+										 aria-describedby="helpSurname"
+										 placeholder="Smith"
+										 tabindex="3"
+										 ng-minlength="2"
+										 ng-maxlength="50"
+										 ng-model="newStudent.student_surname"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, enter student's LAST NAME. You may use from 2 to 50 latin characters without special symbols or spaces."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's Surname -->
 						<span id="helpSurname"
@@ -79,17 +101,24 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="username">User Name</label>
-						<input type="text"
-									 name="studUsername"
-									 id="username"
-									 class="form-control"
-									 aria-describedby="helpUsername"
-									 placeholder="e.g. test-user"
-									 tabindex="4"
-									 ng-minlength="4"
-									 ng-maxlength="32"
-									 ng-model="newStudent.username"
-									 required>
+						<div class="input-group">
+							<input type="text"
+										 name="studUsername"
+										 id="username"
+										 class="form-control"
+										 aria-describedby="helpUsername"
+										 placeholder="e.g. test-user"
+										 tabindex="4"
+										 ng-minlength="4"
+										 ng-maxlength="32"
+										 ng-model="newStudent.username"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, enter student's USER NAME. You may use from 4 to 32 latin characters without special symbols or spaces."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's Username -->
 						<span id="helpUsername"
@@ -100,16 +129,23 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="password">User Password</label>
-						<input type="password"
-									 name="studUserPassword"
-									 id="password"
-									 class="form-control"
-									 aria-describedby="helpPassword"
-									 tabindex="5"
-									 minlength="4"
-									 maxlength="64"
-									 ng-model="newStudent.password"
-									 required>
+						<div class="input-group">
+							<input type="password"
+										 name="studUserPassword"
+										 id="password"
+										 class="form-control"
+										 aria-describedby="helpPassword"
+										 tabindex="5"
+										 minlength="4"
+										 maxlength="64"
+										 ng-model="newStudent.password"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, choose student's USER PASSWORD. You may use from 4 to 64 latin characters. Also try special symbols."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's User Password -->
 						<span id="helpPassword"
@@ -120,15 +156,22 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="confpassword">Confirm Password</label>
-						<input type="password"
-									 name="studConfPassword"
-									 id="confpassword"
-									 class="form-control"
-									 aria-describedby="helpConfPassword"
-									 tabindex="6"
-									 ng-maxlength="64"
-									 ng-model="newStudent.password_confirm"
-									 required>
+						<div class="input-group">
+							<input type="password"
+										 name="studConfPassword"
+										 id="confpassword"
+										 class="form-control"
+										 aria-describedby="helpConfPassword"
+										 tabindex="6"
+										 ng-maxlength="64"
+										 ng-model="newStudent.password_confirm"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, CONFIRM the password you have just entered."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's User Password Confiramtion -->
 						<span id="helpConfPassword"
@@ -139,15 +182,22 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="email">Email Address</label>
-						<input type="email"
-									 name="studentEmail"
-									 id="email"
-									 class="form-control"
-									 aria-describedby="helpEmail"
-									 placeholder="myemail@site.com"
-									 tabindex="7"
-									 ng-model="newStudent.email"
-									 required>
+						<div class="input-group">
+							<input type="email"
+										 name="studentEmail"
+										 id="email"
+										 class="form-control"
+										 aria-describedby="helpEmail"
+										 placeholder="myemail@site.com"
+										 tabindex="7"
+										 ng-model="newStudent.email"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, write student's EMAIL ADDRESS. Rember you should use @ sign and site domain."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for EMAIL -->
 						<span id="helpEmail"
@@ -158,17 +208,24 @@
 					</div>
 					<div class="form-group">
 						<label class="sr-only" for="gradebook">Gradebook Code</label>
-						<input type="text"
-									 name="studGradebook"
-									 id="gradebook"
-									 class="form-control"
-									 aria-describedby="helpGradebook"
-									 placeholder="AH-894893"
-									 tabindex="8"
-									 ng-minlength="5"
-									 ng-maxlength="20"
-									 ng-model="newStudent.gradebook_id"
-									 required>
+						<div class="input-group">
+							<input type="text"
+										 name="studGradebook"
+										 id="gradebook"
+										 class="form-control"
+										 aria-describedby="helpGradebook"
+										 placeholder="AH-894893"
+										 tabindex="8"
+										 ng-minlength="5"
+										 ng-maxlength="20"
+										 ng-model="newStudent.gradebook_id"
+										 required>
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="left"
+										title="Please, write student's GRADEBOOK ID. You may use from 5 to 20 charachters and digits."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+						</div><!-- END Input Group -->
 
 						<!-- Error message for Student's Gradebook -->
 						<span id="helpGradebook"
@@ -177,6 +234,39 @@
 						</span>
 
 					</div>
+
+
+
+
+					<div class="form-group">
+						<label class="sr-only" for="group">Group</label>
+						<div class="input-group">
+							<span class="input-group-addon btn btn-success"
+										poptip
+										data-toggle="tooltip"
+										data-placement="top"
+										title="Please, choose student's GROUP. You may use drop-down list to select the right one."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
+							<select class="form-control width-max"
+											ng-options="key as value for (key, value) in students.group"
+											ng-model="newStudent.group_id"
+											name="group"
+											id="group"
+											aria-describedby="helpGroup"
+											tabindex="8"
+											required>
+							</select>
+						</div><!-- END Input Group -->
+
+						<!-- Error message for Student's Gradebook -->
+						<span id="helpGradebook"
+									ng-show="addRecord.studGradebook.$invalid && addRecord.studentGradebook.$dirty"
+									class="help-block error">{{ getError(addRecord.studGradebook.$error) }}
+						</span>
+
+					</div>
+
+
+
 					<div class="form-group">
 						<label class="btn btn-default btn-sm"
 									 for="photo">
@@ -188,15 +278,13 @@
 									 class="form-control inputfile"
 									 aria-describedby="helpPhoto"
 									 tabindex="9"
-									 onchange="angular.element(this).scope().addImageFile(this)"
-									 ng-model="newStudent.photo"
+									 fileread="studPhoto"
 									 accept="image/*">
-
-						<span id="helpPhoto"
-									ng-show="addRecord.studPhoto.$invalid && addRecord.studPhoto.$dirty"
-									class="help-block error">{{ getError(addRecord.studPhoto.$error) }}
-						</span>
-
+<!-- 						<span id="helpPhoto"
+			ng-show="addRecord.studPhoto.$invalid && addRecord.studPhoto.$dirty"
+			class="help-block error">{{ getError(addRecord.studPhoto.$error) }}
+</span>
+ -->
 					</div>
 					<button type="submit"
 									class="btn btn-primary"
@@ -325,7 +413,7 @@
 														ng-options="key as value for (key, value) in students.group"
 														ng-model="student.group_id"
 														name="group">
-							</select>
+										</select>
 									</td>
 									<td class="td-photo hidden-xs" rowspan="3">
 										<img class="student-photo" 

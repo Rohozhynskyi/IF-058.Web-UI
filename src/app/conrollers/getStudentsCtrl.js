@@ -1,7 +1,7 @@
-app.controller('getStudentsCtrl', ['$scope', 'entitiesSrvc', function ($scope, entitiesSrvc) {
+app.controller('getStudentsCtrl', ['$scope', 'entitiesSrvc', '$interval', function ($scope, entitiesSrvc, $interval) {
 
+	// Declares Entity of the controller
 	$scope.thisEntity = 'student';
-	$scope.photo = '';
 
 	entitiesSrvc.getEntities($scope.thisEntity)
 		.then(function (response) {
@@ -9,9 +9,80 @@ app.controller('getStudentsCtrl', ['$scope', 'entitiesSrvc', function ($scope, e
 			$scope.noData = "There is no entities here.";
 		});
 
+	//function shows and hides the form for creating new entity
+	$scope.showAddForm = function () {
+		if (!$scope.showingAdd) {
+			$scope.showingAdd = true;
+		} else {
+			$scope.showingAdd = false;
+			$scope.newEntity = {};
+		};
+	};
+
+	// $interval(function () {
+	// 	console.log($scope.group_id);
+	// }, 1500);
+
+	$scope.addNewStudent = function (recordData) {
+
+		// Some tricks with fields we don't know how to work with
+		if(!recordData.group_id || recordData.group_id == '') {
+			return; 
+		}
+
+		if(!$scope.studPhoto || $scope.studPhoto == '') {
+			return;
+		}
+
+		//Transfer photo string inside addNew Student method
+		recordData.photo = $scope.studPhoto;
+
+		// Put recordData Object into a variable
+		var studentRecordData = {
+			// User Values
+			username: recordData.username,
+			password: recordData.password,
+			password_confirm: recordData.password_confirm,
+			email: recordData.email,
+			// Students Values
+			gradebook_id: recordData.gradebook_id,
+			student_surname: recordData.student_surname,
+			student_name: recordData.student_name,
+			student_fname: recordData.student_fname,
+			group_id: recordData.group_id,
+			plain_password: recordData.password_confirm,
+			photo: recordData.photo
+		};
+
+		var jsonData = JSON.stringify(studentRecordData);
+
+		// Gives data to a service
+		entitiesSrvc.createEntity($scope.thisEntity, jsonData)
+			.then(function (response) {
+				console.log(response);
+				// addRespHandler(resp, newData);
+			});
+
+		//handing success and error response
+		function addRespHandler (resp, newData) {
+			if (resp.data.response == 'ok' && resp.status == 200) {
+				$scope.showingAdd = false;
+				$scope.newEntity = {};
+			} else if (resp.data.response == 'orror 23000') {
+				console.log('pop up with error that there is such record');
+			} else {
+				console.log('Error of Record' + resp.data.response);
+			}
+		}// END addRespHandler
+
+	}; // End $scope.addStudent
+
+
+
+
+
 	// Show edit panel for a student
 	$scope.showEditingForm = function (stud) {
-		console.log(stud);
 		// if stud Object is not equal to null
 		if (stud !== null) {
 			$scope.currId = stud.user_id;
@@ -36,8 +107,6 @@ app.controller('getStudentsCtrl', ['$scope', 'entitiesSrvc', function ($scope, e
 		};
 
 		var eStud = $scope.editingStudent;
-
-		console.log(eStud);
 
 		// Need local variable for using in service
 		// Then we will need to null the scope's same variable

@@ -48,6 +48,11 @@ var dependencies = {
         .then(fulfilled, rejected);
     },
 
+    getEntitiesForEntity: function (entity, parentEntity, id) {
+      return $http.get(baseUrl + entity + '/getTimeTablesForSubject' + '/' + id)
+        .then(fulfilled, rejected);
+    },
+
     getEntities: function (entity) {
       return $http.get(baseUrl + entity + '/getRecords')
       .then(  function (response) {

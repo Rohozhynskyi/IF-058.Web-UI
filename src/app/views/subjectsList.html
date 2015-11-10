@@ -1,4 +1,5 @@
 <div entities-drct="subject">
+
   <div class="wrapper panel panel-success no-border">
         <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Предмети </div>
         <!-- The button and form to add Entity -->
@@ -11,11 +12,11 @@
                 <div class=" row">
                   <form name="addForm" class="form-inline" role='form' novalidate>
                     <div class="col-md-4">
-                      <input class="form-control width-max navbar-btn" placeholder="Введіть назву предмету" type='text' ng-model="newSubject.faculty_name" required
+                      <input class="form-control width-max navbar-btn" placeholder="Введіть назву предмету" type='text' ng-model="newEntity.subject_name" required
                       >
                     </div>
                     <div class="col-md-6">
-                      <input class="form-control width-max navbar-btn" placeholder="Вкажіть деталі" type='text' ng-model="newEntity.faculty_description" required>
+                      <input class="form-control width-max navbar-btn" placeholder="Вкажіть деталі" type='text' ng-model="newEntity.subject_description" required>
                     </div>
                     <div class="col-md-2">
                       <button type="submit" class="btn btn-success pull-right width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
@@ -23,20 +24,27 @@
                   </form>
                 </div>
             </div>
-
+             
+            
             <div ng-show="!entities">{{noData}}</div>
 <!-- The table for list of Entities -->
             <table ng-show="entities" class="table table-hover .table-condensed">
                 <thead class="usCenter">
                   <tr>
                     <th>№</th>
-                    <th class="col-md-4">Предмет</th>
-                    <th class="col-md-6">Деталі</th>
+                    <th class="col-md-4 clickable" ng-click="sortType = 'subject_name'; sortReverse = !sortReverse">Предмет
+                        <i ng-show="sortType == 'subject_name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'subject_name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="col-md-6 clickable" ng-click="sortType = 'subject_description'; sortReverse = !sortReverse">Деталі
+                        <i ng-show="sortType == 'subject_description' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'subject_description' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
                     <th class="col-md-2">Дії</th>
                   </tr>
                 </thead>
                 <tbody class="usCenter">
-                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities" id="row{{$index + 1}}"> <a ui-sref="admin.tests({id:entity.subject_id})">
+                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}"> <a ui-sref="admin.tests({id:entity.subject_id})">
                     <!-- read-only cells -->
                     <td><a ui-sref="admin.tests({id:entity.subject_id})">{{$index + 1}}</a></td>
                     <td class="col-md-4">{{entity.subject_name}}</td>

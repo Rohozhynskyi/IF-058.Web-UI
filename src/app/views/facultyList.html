@@ -28,13 +28,19 @@
                 <thead class="usCenter">
                   <tr>
                     <th>№</th>
-                    <th class="col-md-4">Факультет</th>
-                    <th class="col-md-6">Деталі</th>
+                    <th class="col-md-4 clickable" ng-click="sortType = 'faculty_name'; sortReverse = !sortReverse">Факультет
+                        <i ng-show="sortType == 'faculty_name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'faculty_name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="col-md-6 clickable" ng-click="sortType = 'faculty_description'; sortReverse = !sortReverse">Деталі
+                        <i ng-show="sortType == 'faculty_description' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'faculty_description' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
                     <th class="col-md-2">Дії</th>
                   </tr>
                 </thead>
                 <tbody class="usCenter">
-                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities" id="row{{$index + 1}}">
+                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}">
                     <!-- read-only cells -->
                     <td>{{$index + 1}}</td>
                     <td class="col-md-4">{{entity.faculty_name}}</td>

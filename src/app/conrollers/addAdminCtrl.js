@@ -7,7 +7,6 @@ app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entit
         entitiesSrvc.getEntities($scope.thisEntity).then(function(resp){
             $scope.admins = resp.data;
             $scope.noData = "Not found";
-            console.log($scope.admins);
         });
     };
 
@@ -30,14 +29,12 @@ app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entit
             password_confirm: $scope.newPasswordConfirm,
             email: $scope.newEmail
         };
-        // console.log(newData);
         entitiesSrvc.createEntity($scope.thisEntity, newData).then(function (resp) {
             if (resp.data.response == "ok") {
                 newData.admin_id = resp.data.id;
-                // console.log(resp);
                 $scope.admins.push(newData);
             } else {
-                alert ("Помилка " + resp.data.response);
+                alert ("ГЏГ®Г¬ГЁГ«ГЄГ  " + resp.data.response);
             };
         });
         $scope.showAddForm();
@@ -66,7 +63,6 @@ app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entit
             password_confirm: $scope.editingData.editingPasswordConfirm,
             email: $scope.editingData.editingEmail
         };
-        // console.log($scope.editingData, $scope.currentId);
         entitiesSrvc.updateEntity($scope.thisEntity, $scope.currentId, editedData).then(function (resp) {
             if (resp.data.response == "ok") {
                 for (var i = 1; i < $scope.admins.length; i++) {
@@ -78,7 +74,7 @@ app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entit
                     } ;
                 };
             } else {
-                alert ("Помилка " + resp.data.response);
+                alert ("ГЏГ®Г¬ГЁГ«ГЄГ  " + resp.data.response);
             };
         });;
         $scope.editingAdmin = null;
@@ -102,7 +98,7 @@ app.controller('addAdminCtrl', ['$scope', 'entitiesSrvc', function($scope, entit
                 var index = $scope.admins.indexOf(currentAdmin);
                 $scope.admins.splice(index, 1);
             } else {
-                alert ("Помилка " + resp.data.response);
+                alert ("ГЏГ®Г¬ГЁГ«ГЄГ  " + resp.data.response);
             };
         });
         $scope.activateAdmin();

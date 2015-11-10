@@ -2,13 +2,12 @@
 app.directive('testDetailsStatDrct', [function(){
   return {
     link: function (scope, element, attrs) {
-      scope.editingEntity = "";
       scope.$watch("entities.length", function (newValue, oldValue) {
         if (newValue != undefined) {
           changingHandler() };
       });
       scope.$watch("editingEntity", function (newValue, oldValue) {
-        if (newValue == undefined) { changingHandler() };
+        if (oldValue != undefined) { changingHandler() };
       });
       function changingHandler () {
         scope.totalCountTasks = 0;
@@ -19,6 +18,5 @@ app.directive('testDetailsStatDrct', [function(){
         };
       };
     },
-    restrict: "A"
   };
 }]);

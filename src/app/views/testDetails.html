@@ -11,14 +11,14 @@
                 <div class=" row">
                   <form name="addForm" class="form-inline" role='form' novalidate>
                     <div class="col-md-3">
-                      <input type='text' class="form-control width-max navbar-btn" placeholder="Рівень завдань" ng-model="newEntity.level" required
+                      <input class="form-control width-max navbar-btn" placeholder="Рівень завдань" ng-model="newEntity.level" required
                       >
                     </div>
                     <div class="col-md-3">
-                      <input type='text' class="form-control width-max navbar-btn" placeholder="Кількість завдань" ng-model="newEntity.tasks" required>
+                      <input class="form-control width-max navbar-btn" placeholder="Кількість завдань" ng-model="newEntity.tasks" required>
                     </div>
                     <div class="col-md-3">
-                      <input type='text' class="form-control width-max navbar-btn" placeholder="Кількість балів" ng-model="newEntity.rate" required>
+                      <input class="form-control width-max navbar-btn" placeholder="Кількість балів" ng-model="newEntity.rate" required>
                     </div>
                     <div class="col-md-2 pull-right ">
                       <button type="submit" class="btn btn-success width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
@@ -35,14 +35,23 @@
                 <thead class="usCenter">
                   <tr>
                     <th>№</th>
-                    <th class="col-md-3">Рівень завдань</th>
-                    <th class="col-md-3">Кількість завдань</th>
-                    <th class="col-md-4">Кількість балів</th>
+                    <th class="col-md-3 clickable" ng-click="sortType = 'level'; sortReverse = !sortReverse">Рівень завдань
+                        <i ng-show="sortType == 'level' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'level' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="col-md-3 clickable" ng-click="sortType = 'tasks'; sortReverse = !sortReverse">Кількість завдань
+                        <i ng-show="sortType == 'tasks' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'tasks' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="col-md-4 clickable" ng-click="sortType = 'rate'; sortReverse = !sortReverse">Кількість балів
+                        <i ng-show="sortType == 'rate' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'rate' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
                     <th class="col-md-2">Дії</th>
                   </tr>
                 </thead>
                 <tbody class="usCenter">
-                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities" id="row{{$index + 1}}">
+                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}">
                     <!-- read-only cells -->
                     <td>{{$index + 1}}</td>
                     <td class="col-md-3">{{entity.level}}</td>

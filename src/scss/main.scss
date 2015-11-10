@@ -157,12 +157,37 @@ body, html, .container-fluid, .nav-row {
 }
 
 .top-nav {
-  box-shadow: 0 3px 3px $nav_color;
+  background-color: $nav_color;
+  border-radius: 0px;
+  // box-shadow: 0 3px 3px $nav_color;
   margin-bottom: 20px;
-  ul li a span {
-	padding:5px;
+  ul li a {
+    color: #fff;
+    &:hover {
+      background-color: #057933;
+    }
+    &:focus {
+      background-color: #057933;
+    }
+    span {
+      padding: 5px;
+      color: #e8fb77;
+      text-shadow: 0 0 8px #C4D2D5;
+    }
   }
-  @include navstyle;
+}
+
+.left-panel{
+  box-shadow: 0px 0 0px;
+}
+.top-nav>.container{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.navbar-header>.navbar-toggle{
+  float:left;
+  margin-left: 15px;
 }
 
 .logoWrapper {
@@ -193,20 +218,6 @@ body, html, .container-fluid, .nav-row {
   width:100% !important;
 }
 
-@media (min-width: 600px) {
-  .top-nav ul {
-	margin:10px auto;
-	li{
-	  display: inline;
-	  margin: 5px 7px 5px 7px;
-	}
-  }
-}
-@media (max-width: 601px) {
-  .top-nav ul li a{
-	display: inline-block;
-  }
-}
 @media screen and (max-height: 643px) {
   .footer {
     position: static;
@@ -216,16 +227,69 @@ body, html, .container-fluid, .nav-row {
     height: auto;
   }
 }
-
 button.marginTop {
   margin-top: 0;
 }
+.button::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.button:before {
+  content: 'Оберіть файл';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  .change {
+    content: 'Змінити файл';
+  }
+}
+.button:hover:before {
+  border-color: black;
+}
+.button:active:before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+.button:after {
+  display: none;
+}
+.edited-picture {
+  z-index: 1;
+}
+.close-button-questions{
+  position: relative;
+  z-index: 2;
+  margin-right: -20px;
+  top: -35px;
+  right: 34px;
+  }
+.close-button-answers{
+  position: relative;
+  z-index: 2;
+  margin-right: -20px;
+  top: -100px;
+  right: -103px;
+}
+#imageAttachment{
+  margin: 5px;
+  border-radius: 5px;
+}
 
-/* ___________________________________
- *
- * Here is styles for student entities
- * ___________________________________
-*/
+
+
+
+  /* ___________________________________
+   *
+   * Here is styles for student entities
+   * ___________________________________
+  */
 
 .student-photo {
   width: 100%;
@@ -276,4 +340,18 @@ label.ilabel {
 
 .well.well-stud {
   margin: 80px auto 20px auto;
+}
+
+.icon-bar {
+  background-color: #fff;
+}
+.clickable {
+  cursor: pointer;
+}
+
+.glyphicon-color {
+  color: #E2FF8D;
+  &:hover {
+    color: #fff;
+  }
 }

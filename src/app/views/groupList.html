@@ -42,14 +42,23 @@
                 <thead class="usCenter">
                   <tr>
                     <th class="usCenter">№</th>
-                    <th class="usCenter">Назва групи</th>
-                    <th class="usCenter">Факультет</th>
-                    <th class="usCenter">Спеціальність</th>
+                    <th class="usCenter clickable" ng-click="sortType = 'group_name'; sortReverse = !sortReverse">Назва групи
+                        <i ng-show="sortType == 'group_name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'group_name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="usCenter clickable" ng-click="sortType = 'faculty_name'; sortReverse = !sortReverse">Факультет
+                        <i ng-show="sortType == 'faculty_name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'faculty_name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
+                    <th class="usCenter clickable" ng-click="sortType = 'speciality_name'; sortReverse = !sortReverse">Спеціальність
+                        <i ng-show="sortType == 'speciality_name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                        <i ng-show="sortType == 'speciality_name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                    </th>
                     <th class="usCenter">Дії</th>
                   </tr>
                 </thead>
                   <tbody class="usCenter">
-                    <tr ng-repeat-start="row in groups.list" ng-if='editingData.group_id !== row.group_id'>
+                    <tr ng-repeat-start="row in groups.list | filter:searchItem | orderBy:sortType:sortReverse" ng-if='editingData.group_id !== row.group_id'>
                       <td class="usCenter">{{$index + 1}}</td>
                       <td class="usCenter">{{row.group_name}}</td>
                       <td class="usCenter">{{row.faculty_name}}</td>

@@ -1,95 +1,122 @@
+
 <div entities-drct="question">
-  <div class="questionList">
-    <div class="wrapper panel panel-success no-border">
-      <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Завдання </div>
-      <!-- The button and form to add Entity -->
-      <div class="col-md-12">
-        <div>
-          <br/>
-          <show-add-form-button-drct></show-add-form-button-drct>
-          <br/><br/>
-          <div class="well" ng-show="showingAdd">
-            <div class=" row">
-              <form name="addForm" class="form-inline" role='form' novalidate>
-                <div class="col-md-6">
-                  <textarea rows="3" class="form-control width-max" placeholder="Введіть текст завдання"
-                        ng-model="newEntity.question_text" required>
+    <div class="testList">
+        <div class="wrapper panel panel-success no-border">
+            <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Завдання </div>
+            <!-- The button and form to add Entity -->
+            <div class="col-md-12">
+                <div>
+                    <br/>
+                    <show-add-form-button-drct></show-add-form-button-drct>
+                    <br/><br/>
+                    <div class="well" ng-show="showingAdd">
+                        <div class=" row">
+                            <form name="addForm" class="form-inline" role='form' novalidate>
+                                <div class="col-md-6">
+                  <textarea rows="4" class="navbar-btn form-control width-max" placeholder="Введіть текст завдання"
+                            ng-model="newEntity.question_text" required>
                   </textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="number" min="1" class="navbar-btn form-control width-max"
+                                           placeholder="Введіть рівень складності" ng-model="newEntity.level" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <select id="choise" class="navbar-btn form-control width-max" ng-model="newEntity.type" required>
+                                        <option value="" disabled selected hidden>Оберіть тип питання</option>
+                                        <option value="1" selected="selected">простий вибір</option>
+                                        <option value="2">мульти-вибір</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-11">
+                                <div class="col-md-2">
+                                    <loadfile-drct></loadfile-drct>
+                                    <div ng-if entity.attachment="" >sDadsafasfF</div>
+                                </div>
+                                <div class="col-md-2 pull-right">
+                                    <button type="submit" class="navbar-btn btn btn-success pull-right width-max"
+                                            ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати
+                                    </button>
+                                </div>
+                                <div class="col-md-2 pull-right">
+                                    <button class="navbar-btn btn btn-warning pull-right width-max"
+                                            ng-disabled="!addForm.$dirty" ng-click="resetEntity()">Очистити
+                                    </button>
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary pull-right" ui-sref="admin.testDetails({id:entities[0].test_id})" ng-click="">Параметри тесту</button>
+                    <div ng-show="!entities">{{noData}}</div>
+                    <!-- The table for list of Entities -->
+                    <table ng-show="entities" class="table table-hover .table-condensed">
+                        <thead>
+                        <tr>
+                            <th class=" usCenter">№</th>
+                            <th class="col-md-7 clickable" ng-click="sortType = 'question_text'; sortReverse = !sortReverse">Завдання
+                                <i ng-show="sortType == 'question_text' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                                <i ng-show="sortType == 'question_text' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                            </th>
+                            <th class="col-md-1 usCenter clickable" ng-click="sortType = 'level'; sortReverse = !sortReverse">Рівень
+                                <i ng-show="sortType == 'level' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                                <i ng-show="sortType == 'level' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                            </th>
+                            <th class="col-md-2 usCenter clickable" ng-click="sortType = 'type'; sortReverse = !sortReverse">Тип
+                                <i ng-show="sortType == 'type' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
+                                <i ng-show="sortType == 'type' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
+                            </th>
+                            <th class="col-md-2 usCenter">Дії</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
+                            <!-- read-only cells -->
+                            <td class="usCenter"><a ui-sref="admin.answers({id:entity.question_id})">{{$index + 1}}</a></td>
+                            <td class="col-md-7" ng-bind-html="entity.question_text | unsafe"></td>
+                            <td class="col-md-1 usCenter">{{entity.level}}</td>
+                            <td class="col-md-2 usCenter">{{entity.type | avialibility}}</td>
+                            <td class="col-md-2 usCenter">
+                                <actions-buttons-drct></actions-buttons-drct>
+                            </td>
+                        </tr>
+                        <tr ng-if="entity == editingEntity" ng-repeat-end="">
+                            <td class="usCenter">{{$index + 1}}</td>
+                            <td class="col-md-7">
+                                <div class="col-md-7">
+                                    <textarea class="form-control width-max navbar-btn" ques-text  ng-model="editedEntity.new_question_text"></textarea>
+                                </div>
+                                <div class="col-md-5 ">
+                                    <div ng-if="!(entity.attachment == 'added' || entity.attachment == '')" > <file-model></file-model>
+                                        <img class="edited-picture" ng-src="{{editedEntity.new_attachment}}" alt="picture" height="100px"/>
+                                        <img class="close-button-questions" src="img/close_button.png" height="30px" delete-picture ng-click="closePicture(entity)">
+
+                                    </div>
+                                    <div ng-if="(entity.attachment == 'added' || entity.attachment == '')">
+                                        <file-model></file-model>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-md-1 usCenter"><input  class="form-control width-max" ng-model="editedEntity.new_level"></td>
+                            <td class="col-md-2 usCenter">
+                                <select class="form-control width-max navbar-btn" ng-model="editedEntity.new_type">
+                                    <option value="1">простий вибір</option>
+                                    <option value="2">мульти-вибір</option>
+                                </select>
+                            </td>
+                            <td class="col-md-2 usCenter">
+                                <editing-buttons-drct></editing-buttons-drct>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- The modal to confirm removing of Entity -->
+                    <deleting-modal-drct></deleting-modal-drct>
+                    <!-- The modal to inform about error from server -->
+                    <inform-modal-drct></inform-modal-drct>
                 </div>
-                <div class="col-md-6">
-                  <input type="number" min="1" class="form-control width-max"
-                       placeholder="Введіть рівень складності" ng-model="newEntity.level" required>
-                </div>
-                <div class="col-md-6">
-                  <select class="form-control width-max" ng-model="newEntity.type" required>
-                    <option value="0" selected="selected">Простий вибір</option>
-                    <option value="1">Мульти-вибір</option>
-                  </select>
-                </div>
-                <div class="col-md-2">
-                  <input type="file" data-file="param.file"/>
-                </div>
-                <div class="col-md-2 pull-right">
-                  <button type="submit" class="btn btn-success pull-right width-max"
-                      ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати
-                  </button>
-                </div>
-                <div class="col-md-2 pull-right">
-                  <button class="btn btn-warning pull-right width-max"
-                      ng-disabled="!addForm.$dirty" ng-click="resetEntity()">Очистити
-                  </button>
-                </div>
-              </form>
             </div>
-          </div>
-
-          <button class="btn btn-primary pull-right" ui-sref="admin.testDetails({id:entities[0].test_id})" ng-click="">Параметри тесту</button>
-
-          <div ng-show="!entities">{{noData}}</div>
-          <!-- The table for list of Entities -->
-          <table ng-show="entities" class="table table-hover .table-condensed">
-            <thead>
-            <tr>
-              <th class=" usCenter">№</th>
-              <th class="col-md-7">Завдання</th>
-              <th class="col-md-1 usCenter">Рівень</th>
-              <th class="col-md-2 usCenter">Тип</th>
-              <th class="col-md-2 usCenter">Дії</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities">
-              <!-- read-only cells -->
-              <td class="usCenter">{{$index + 1}}</td>
-              <td class="col-md-7">{{entity.question_text}}</td>
-              <td class="col-md-1 usCenter">{{entity.level}}</td>
-              <td class="col-md-2 usCenter">{{entity.type}}</td>
-              <td class="usCenter col-md-2">
-                <actions-buttons-drct></actions-buttons-drct>
-              </td>
-            </tr>
-            <tr ng-if="entity == editingEntity" ng-repeat-end="">
-              <td class="usCenter">{{$index + 1}}</td>
-              <td class="col-md-7"><input class="form-control width-max navbar-btn" ng-model="editedEntity.new_question_text"></td>
-              <td class="col-md-1 usCenter"><input class="form-control width-max" ng-model="editedEntity.new_level"></td>
-              <td class="col-md-2 usCenter">
-                <select class="form-control width-max navbar-btn" ng-model="editedEntity.new_type">
-                  <option value="1">доступно</option>
-                  <option value="0">недоступно</option>
-                </select>
-              </td>
-              <td class="usCenter col-md-2">
-                <editing-buttons-drct></editing-buttons-drct>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <!-- The modal to confirm removing of Entity -->
-          <deleting-modal-drct></deleting-modal-drct>
-          <!-- The modal to inform about error from server -->
-          <inform-modal-drct></inform-modal-drct>
         </div>
-      </div>
     </div>
-  </div>
 </div>
