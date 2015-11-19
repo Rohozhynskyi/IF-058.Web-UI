@@ -285,10 +285,12 @@ button.marginTop {
 
 .student-photo {
   width: 100%;
+  max-width: 50px;
   height: auto;
 }
 
 .table>tbody>tr>td.td-photo {
+  max-width: 50px;
   width: 15%;
   padding: 0;
 }
