@@ -48,7 +48,6 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
                   )
                 .then(function (resp) {
                   gettingResponseHandler (resp);
-                  console.log("hello form service ", resp);
                 });
                 break;
               case 'question':
