@@ -6,10 +6,6 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-<!-- 			<button class="btn btn-sm btn-primary pull-right add-button" ng-click="showAddForm()">
-	<span class="glyphicon glyphicon-plus"></span>
-</button>
- -->
 			<show-add-form-button-drct></show-add-form-button-drct>
 
 				<div class="well well-stud" ng-show="showingAdd">
@@ -250,7 +246,7 @@
 											data-placement="top"
 											title="Please, choose student's GROUP. You may use drop-down list to select the right one."><span class="glyphicon glyphicon-asterisk glyphicon-color"></span></span>
 								<select class="form-control width-max"
-												ng-options="key as value for (key, value) in students.group"
+												ng-options="key as value for (key, value) in entities.group"
 												ng-model="newEntity.group_id"
 												name="group"
 												id="group"
@@ -342,7 +338,7 @@
 					<!-- Start Repeat for entity STUDENT -->
 					<table ng-show="entities" class="table table-striped">
 						<tr ng-if="entity !== editingEntity"
-								ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
+								ng-repeat-start="entity in entities.list | filter:searchItem | orderBy:sortType:sortReverse">
 							<td class="td-photo hidden-xs">
 								<img class="student-photo" 
 											 ng-src="{{ entity.photo ? entity.photo : '../build/img/def-stud.jpg' }}"
