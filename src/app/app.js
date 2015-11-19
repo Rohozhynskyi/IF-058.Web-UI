@@ -110,7 +110,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
       url: '/educationInfo',
       templateUrl: 'app/views/educationInfo.html'
     }).
-    state('admin.educationInfo.groups', {
+    state('admin.groups', {
       url: '/groups',
       templateUrl: 'app/views/groupList.html',
       controller: 'groupsCtrl'

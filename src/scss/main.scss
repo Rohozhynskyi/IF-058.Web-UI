@@ -124,7 +124,7 @@ body, html, .container-fluid, .nav-row {
 	  a {
 		color: white;
 		padding: 15px 0;
-		text-align: center;
+		// text-align: center;
 		width: 100%;
 		font-size:16px;
 		&:hover {
@@ -146,11 +146,16 @@ body, html, .container-fluid, .nav-row {
   position: fixed;
   min-height: 100%;
   box-shadow: 3px 0 3px $nav_color;
+  hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   ul li a {
 	display: inline-block;
 	span {
-	  display:block;
+	  // display:block;
 	  padding-bottom:5px;
+    margin-left: 20px;
 	}
   }
   @include navstyle;
@@ -220,8 +225,9 @@ body, html, .container-fluid, .nav-row {
   width:0;
 }
 
-.width60prc{
-  width: 60%;
+.sm-menu{
+  padding-left: 55px;
+  padding-right: 150px;
 }
 
 @media screen and (max-height: 643px) {

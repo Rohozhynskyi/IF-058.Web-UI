@@ -1,4 +1,4 @@
-app.directive('imageLoad', ['$timeout', function ($timeout) {
+app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interval) {
 
 	// imageLoad directive link function
 	function link ($scope, $element, $attrs, $ctrls) {
@@ -8,70 +8,71 @@ app.directive('imageLoad', ['$timeout', function ($timeout) {
 	// imageLoad directive controller function
 	function imageLoadCtrl ($scope) {
 
-		$scope.studPhoto = {
-			src: '',
-			name: ''
-		};
+		$scope.studPhoto = {};
+		$scope.path = $scope.studPhoto;
 
-		var ctrl = this;
-		ctrl.setImgSrc = function (src) {
-			$scope.studPhoto.src = src; //END observe
-		};
 
-		ctrl.setImgName = function (name) {
-			$scope.studPhoto.name = name; //END observe
-		};
-
+		$interval(function () {
+			console.log('path ', $scope.path);
+		}, 3000);
 	}
+
 
 	return {
 		restrict: 'E',
 		template: [
 			'<div class="form-group">',
-				'<image-label image="{{ studPhoto.src }}" image-name="{{ studPhoto.name }}"></image-label>',
-				'<image-input></image-input>',
+				'<image-label image-src="{{ studPhoto.src }}" image-name="{{ studPhoto.name }}"></image-label>',
+				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name"></image-input>',
 			'</div>'
 			].join('\n'),
 		controller: ['$scope', imageLoadCtrl],
 		link: link,
 		scope: {
-			options: '='
+			path: '=options',
 		}
 	};
 }]);
 
 
-app.directive('imageLabel', ['$timeout', function ($timeout) {
+app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $interval) {
 
 	function link ($scope, $element, $attrs, ctrls) {
 		var parentCtrl = ctrls[0]
-			, img;
+			, img
+			, picSrc
+			, picName;
 
-			$attrs.$observe('image', function () {
-				// Inner variables
-				var picSrc = $scope.image
-					, picName = $scope.imageName;
+		$scope.$watch('[imageSrc, imageName]', changePicturePopover, true);
 
-				if (picSrc) {
-					$($element).popover({
-						html: true,
-						trigger: 'hover',
-						placement: 'top',
-						title: (picName !== '' && picName !== undefined) ? picName : 'there is no name',
-						content: function () {
-							return '<img class="img-popover" src="' + picSrc + '" />';
-						}
-					}); // END jQuery element selecting
-				} // END if statement
+		function changePicturePopover (newValue, oldValue, scope) {
 
-			});
+			// inner variables
+			picSrc = newValue[0];
+			picName = newValue[1];
+
+			if (picSrc && picName) {
+				$($element).popover({
+					html: true,
+					trigger: 'hover',
+					placement: 'top',
+					title: function () {
+						return '<strong>Фото: </strong>' + picName;
+					},
+					content: function () {
+						return '<img class="img-popover" src="' + picSrc + '" />';
+					}
+				}); // END jquery element selecting
+			} // END if statement
+		} // END changePicturePopover
+
 	}// END link function
 
 
 	return {
 		restrict: 'E',
 		scope: {
-			image: '@',
+			imageSrc: '@',
 			imageName: '@'
 		},
 		require: ['^imageLoad'],
@@ -90,7 +91,7 @@ app.directive('imageLabel', ['$timeout', function ($timeout) {
 
 
 
-app.directive('imageInput', [function () {
+app.directive('imageInput', ['$timeout', function ($timeout) {
 
 	// Cut file name function
 	function fileCutName (str, slength) {
@@ -122,23 +123,23 @@ app.directive('imageInput', [function () {
 			reader = new FileReader();
 			reader.onload = function (loadEvent) {
 				$scope.$apply(function () {
-					$scope.fileread = loadEvent.target.result;
-
-					// Transfer data to the parent directive controller
-					parentCtrl.setImgSrc(reader.result);
-					parentCtrl.setImgName($scope.cutName);
+					$scope.pictureSrc = loadEvent.target.result;
+					$scope.pictureName = $scope.cutName;
 				});
 			};
 			reader.readAsDataURL(fileTarget);
 		}); // END element bind
+
+
 	} // END LINK FUNCTION
 
 
 
 	return {
-		template: '<input type="file" name="studPhoto" id="photo" class="form-control inputfile" aria-describedby="helpPhoto" tabindex="9" image="studPhoto" accept="image/*">',
+		template: '<input type="file" name="studPhoto" id="photo" class="form-control inputfile" aria-describedby="helpPhoto" tabindex="9" accept="image/*">',
 		scope: {
-			fileread: '=image',
+			pictureSrc: '=picSrc',
+			pictureName: '=picName',
 		},
 		require: ['^imageLoad'],
 		link: link
