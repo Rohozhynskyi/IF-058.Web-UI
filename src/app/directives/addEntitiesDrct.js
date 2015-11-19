@@ -6,11 +6,9 @@ app.directive('addEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
           scope.showAddForm = function () {
             if (!scope.showingAdd) {
               scope.showingAdd = true;
-
             } else {
               scope.showingAdd = false;
               scope.resetEntity();
-              console.log(scope.newEntity)
             };
           };
 

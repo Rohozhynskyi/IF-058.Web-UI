@@ -1,4 +1,4 @@
-<div >
+<div>
     <div class="testList">
         <div class="wrapper panel panel-success no-border">
             <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Тести </div>
@@ -34,7 +34,7 @@
                         </tr>
                         </thead>
                         <tbody class="usCenter">
-                        <tr ng-repeat="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
+                        <tr ng-repeat="entity in entities | filter:searchItem | orderBy:sortType:sortReverse | filter:{enabled: '1'} : true" ng-click="enterToEntity('user.questions', entity.test_id)" >
                             <td>{{$index + 1}}</td>
                             <td class="col-md-4">{{entity.test_name}}</td>
                             <td class="col-md-1">{{entity.tasks}}</td>

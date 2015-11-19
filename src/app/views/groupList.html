@@ -58,7 +58,7 @@
                   </tr>
                 </thead>
                   <tbody class="usCenter">
-                    <tr ng-repeat-start="row in groups.list | filter:searchItem | orderBy:sortType:sortReverse" ng-if='editingData.group_id !== row.group_id'>
+                    <tr ng-repeat-start="row in groups.list | filter:searchItem | orderBy:sortType:sortReverse" ng-if='editingData.group_id !== row.group_id' role="button">
                       <td>{{$index + 1}}</td>
                       <td class="col-md-2">{{row.group_name}}</td>
                       <td class="col-md-5">{{row.faculty_name}}</td>

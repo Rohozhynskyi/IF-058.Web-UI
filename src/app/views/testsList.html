@@ -7,7 +7,7 @@
             <div>
                 <br/>
                 <show-add-form-button-drct></show-add-form-button-drct>
-                <br/><br/><br/>
+                <br/><br/>
                 <div class="well" ng-show="showingAdd">
                     <div class=" row">
                         <form name="addForm" class="form-inline" role='form' novalidate>
@@ -80,7 +80,7 @@
                     </tr>
                     </thead>
                     <tbody class="usCenter">
-                    <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" ng-click="enterToEntity('admin.questions', entity.test_id)">
+                    <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" ng-click="enterToEntity('admin.questions', entity.test_id)" role="button">
                         <td>{{$index + 1}}</td>
                         <td class="col-md-4">{{entity.test_name}}</td>
                         <!-- <td>{{test.subject_id}}</td>-->

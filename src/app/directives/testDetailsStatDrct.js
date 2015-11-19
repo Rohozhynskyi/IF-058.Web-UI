@@ -14,7 +14,7 @@ app.directive('testDetailsStatDrct', [function(){
         scope.totalCountRate = 0;
         for (var i=0; i<scope.entities.length; i++) {
           scope.totalCountTasks += +scope.entities[i].tasks;
-          scope.totalCountRate += +scope.entities[i].rate;
+          scope.totalCountRate += +scope.entities[i].rate*scope.entities[i].tasks;
         };
       };
     },

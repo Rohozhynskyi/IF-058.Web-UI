@@ -1,6 +1,6 @@
 app.controller('entitiesCtrl',
-  ['$scope', 'entitiesSrvc', '$stateParams', '$state', '$timeout', 'entityObj',
-  function ($scope, entitiesSrvc, $stateParams, $state, $timeout, entityObj) {
+  ['$scope', "$q", 'entitiesSrvc', 'countEntitiesSrvc', '$stateParams', '$state', '$timeout', 'entityObj',
+  function ($scope, $q, entitiesSrvc, countEntitiesSrvc, $stateParams, $state, $timeout, entityObj) {
 
   //it defines from entitiesDrct
   $scope.thisEntity = "";
@@ -21,4 +21,12 @@ app.controller('entitiesCtrl',
   $scope.enterToEntity = function(to, entityId) {
     $state.go(to ,{'id': entityId});
   };
+
+  //_____________________________________________
+  //this code will be replace to separate directive in feature / Vitaliy
+  $scope.getCurrentDate = function () {
+      var now = new Date();
+      return now.setDate(now.getDate());
+  };
+
 }]);

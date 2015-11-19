@@ -3,12 +3,12 @@ app.directive('removeEntitiesDrct', ['entitiesSrvc', function(entitiesSrvc){
   return {
     link: function (scope, element, attrs) {
           //function for initiate of entity for delete in modal
-            scope.activateEntity = function (entity) {
-              if (scope.deletingEntity != entity) {
-                scope.deletingEntity = entity;
-              } else {
-                scope.deletingEntity = null;
-              };
+            scope.activateEntity = function ($event, entity) {
+              angular.element(document.querySelector('#deleteModal')).modal();
+              scope.deletingEntity = entity;
+              if ($event) {
+                $event.stopPropagation();
+              }
             };
 
           //function removes an entity from array and from server
@@ -18,7 +18,6 @@ app.directive('removeEntitiesDrct', ['entitiesSrvc', function(entitiesSrvc){
               entitiesSrvc.deleteEntity(scope.thisEntity, currentId).then(function (resp) {
                 removingResponseHandler (resp, currentEntity);
               });
-              scope.activateEntity();
             };
 
             function removingResponseHandler (resp, currentEntity) {

@@ -2,12 +2,11 @@
 
 app.factory('entitiesSrvc', ['$http', 'baseUrl', function ($http, baseUrl) {
 
-var dependencies = {
-    group : 'speciality,faculty',
-    student : 'group',
-    test: 'subject'
-};
-
+  var dependencies = {
+      group : 'speciality,faculty',
+      student : 'group',
+      test: 'subject'
+  };
 
   var getDependecies = function (data, dep) {
     var entityId = dep+'_id';
@@ -93,8 +92,6 @@ var dependencies = {
   function fulfilled(response) {
     return response;
   };
-
-
 
   function rejected(error) {
     alert("Помилка " + error.status + " " + error.statusText);
