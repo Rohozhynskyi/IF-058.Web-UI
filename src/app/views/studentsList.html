@@ -337,61 +337,48 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 				<!-- If have no data -->
-				<div ng-show="!students">{{noData}}</div>
+				<div ng-show="!entities">{{noData}}</div>
 
-				<!-- Tablist area -->
-				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+					<!-- Start Repeat for entity STUDENT -->
+					<table ng-show="entities" class="table table-striped">
+						<tr ng-if="entity !== editingEntity"
+								ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
+							<td class="td-photo hidden-xs">
+								<img class="student-photo" 
+											 ng-src="{{ entity.photo ? entity.photo : '../build/img/def-stud.jpg' }}"
+											 alt="Photo of {{entity.student_surname }} {{ student.student_name }}">
+							</td>
+							<td>{{ entity.student_surname }}</td>
+							<td>{{ entity.student_name }}</td>
+							<td>{{ entity.student_fname }}</td>
+							<td>{{ entity.gradebook_id }}</td>
+							<td>
+								<actions-buttons-drct></actions-buttons-drct>
+							</td>
+						</tr>
 
-					<!-- Block with only data from server -->
-					<div class="panel panel-default"
-							 ng-repeat-start="student in students.list"
-							 ng-if="editingStudent.user_id !== student.user_id">
-						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{ $index }}" aria-expanded="false" aria-controls="collapse{{ $index }}">
-									<strong>{{ student.student_surname }}</strong> {{ student.student_fname }} - {{ student.group_name }}
-								</a>
-							</h4>
 
-						</div><!-- END panel-heading -->
-						<div id="collapse{{ $index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-							<!-- Here could be panel-body -->
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<tr>
-										<td colspan="2"><h4><span class="admin-info">Group: </span>{{ student.group_name }}</h4></td>
-										<td class="td-photo hidden-xs" rowspan="3">
-											<img class="student-photo" 
-													 ng-src="{{ student.photo ? student.photo : '../build/img/def-stud.jpg' }}"
-													 alt="Photo of {{student.student_surname }} {{ student.student_fname }}">
-										</td>
-									</tr>
-									<tr>
-										<td>{{ student.student_surname }}</td>
-										<td>{{ student.gradebook_id }}</td>
-									</tr>
-									<tr>
-										<td>{{ student.student_fname }}</td>
-										<td>{{ student.student_name }}</td>
-									</tr>
-								</table>
-							</div><!-- END table-responsive -->
 
-							<div class="panel-footer">
-								<button class="btn btn-info"
-												ng-click="showEditingForm(student)">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</button>
-								<button class="btn btn-danger"
-												ng-click="confirmDelete(student.user_id)"
-												data-toggle="modal"
-												data-target="#deleteModal">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</div><!-- END panel-footer -->
+						<tr ng-if="entity === editingEntity" ng-repeat-end>
+							<td class="td-photo hidden-xs">
+								<img class="student-photo" 
+											 ng-src="{{ entity.photo ? entity.photo : '../build/img/def-stud.jpg' }}"
+											 alt="Photo of {{entity.student_surname }} {{ student.student_name }}">
+							</td>
+							<td>{{ entity.student_surname }}</td>
+							<td>{{ entity.student_name }}</td>
+							<td>{{ entity.student_fname }}</td>
+							<td>{{ entity.gradebook_id }}</td>
+							<td>
+								<editing-buttons-drct></editing-buttons-drct>
+							</td>
+						</tr>
+					</table>
 
-						</div><!-- END panel-collapse -->
-					</div><!-- END panel -->
+					<!-- Confirmation Deleting Modal -->
+          <deleting-modal-drct></deleting-modal-drct>
+          <!-- Informational Error from Server Modal -->
+          <inform-modal-drct></inform-modal-drct>
 
 
 
@@ -399,169 +386,6 @@
 
 
 
-
-					<!-- Block for editing student's data -->
-					<div class="panel panel-default"
-							 ng-repeat-end
-							 ng-if="editingStudent.user_id === student.user_id">
-						<div class="panel-heading" role="tab" id="heading{{ $index }}">
-							<h4 class="panel-title">
-								<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapse{{ $index }}" aria-expanded="false" aria-controls="collapse{{ $index }}">
-									<strong>{{ student.student_surname }}</strong> {{ student.student_fname }} - {{ student.group_name }}
-								</a>
-							</h4>
-
-						</div><!-- END panel-heading -->
-						<div id="collapse{{ $index }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ $index }}">
-							<!-- Here could be panel-body -->
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<tr>
-										<td colspan="2"><span class="admin-info">Group: </span>
-											<select class="form-control width-max"
-															ng-options="key as value for (key, value) in students.group"
-															ng-model="student.group_id"
-															name="group">
-											</select>
-										</td>
-										<td class="td-photo hidden-xs" rowspan="3">
-											<img class="student-photo" 
-													 ng-src="{{ student.photo ? student.photo : '../build/img/def-stud.jpg' }}"
-													 alt="Photo of {{student.student_surname }} {{ student.student_fname }}">
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text"
-														 name="eSSurname"
-														 id="sSurname"
-														 class="form-control"
-														 placeholder="{{ student.student_surname }}"
-														 tabindex="2"
-														 ng-minlength="2"
-														 ng-maxlength="50"
-														 ng-model="editingStudent.student_surname"
-														 value="{{ student.student_surname }}"
-														 required>
-										</td>
-										<td>
-											<input type="text"
-														 name="eSGradebook"
-														 id="sGradebook"
-														 class="form-control"
-														 placeholder="{{ student.student_gradebook }}"
-														 tabindex="3"
-														 ng-minlength="5"
-														 ng-maxlength="20"
-														 ng-model="editingStudent.gradebook_id"
-														 value="{{ student.gradebook_id }}"
-														 required>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<input type="text"
-														 name="eSFName"
-														 id="sFName"
-														 class="form-control"
-														 placeholder="{{ student.student_fname }}"
-														 tabindex="4"
-														 ng-minlength="2"
-														 ng-maxlength="50"
-														 ng-model="editingStudent.student_fname"
-														 value="{{ student.student_fname }}"
-														 required>
-										</td>
-										<td>
-											<input type="text"
-														 name="eSName"
-														 id="sName"
-														 class="form-control"
-														 placeholder="{{ student.student_name }}"
-														 tabindex="5"
-														 ng-minlength="2"
-														 ng-maxlength="50"
-														 ng-model="editingStudent.student_name"
-														 value="{{ student.student_name }}"
-														 required>
-										</td>
-									</tr>
-								</table>
-							</div><!-- END table-responsive -->
-
-							<div class="panel-footer">
-								<button class="btn btn-success"
-												ng-click="editStud()">
-									<span class="glyphicon glyphicon-ok"></span>
-								</button>
-								<button class="btn btn-danger"
-												ng-click="showEditingForm(null)">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
-							</div><!-- END panel-footer -->
-
-						</div><!-- END panel-collapse -->
-					</div><!-- END panel -->
-
-				</div><!-- END panel-group -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				<!-- Modal confirmation window before deleting -->
-				<div class="modal fade"
-						 role="dialog"
-						 id="deleteModal"
-						 aria-labelledby="gridSystemModalLabel">
-					<div class="modal-dialog"
-							 role="document">
-						<div class="modal-content">
-
-							<div class="modal-header">
-								<button type="button"
-												class="close"
-												data-dismiss="modal"
-												ng-click="confirmDelete()"
-												aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-
-								<h4 class="modal-title" id="gridSystemModalLabel">Do you really want to delete student?</h4>
-							</div><!-- END modal-header -->
-
-							<div class="modal-footer">
-								<button type="button"
-												class="btn btn-default btn-lg"
-												data-dismiss="modal"
-												ng-click="confirmDelete()">Undo
-								</button>
-								<button type="button"
-												class="btn btn-danger btn-sm"
-												ng-click="deleteStudent()"
-												data-dismiss="modal">Delete
-								</button>
-							</div><!-- END modal-footer -->
-
-						</div><!-- /.modal-content -->
-					</div><!-- /.modal-dialog -->
-				</div><!-- /.modal -->
 
 			</div><!-- END col -->
 		</div><!-- END row getStudentsCTRL -->
