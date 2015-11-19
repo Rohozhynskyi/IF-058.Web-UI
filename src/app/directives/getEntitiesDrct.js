@@ -13,6 +13,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
           function defineCurrentEntity () {
             if (scope.entityObj[scope.thisEntity] != undefined) {
               scope.currentEntity = scope.entityObj[scope.thisEntity];
+              console.log('define', scope.currentEntity);
             };
           };
 
@@ -22,13 +23,24 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
             scope.thisEntity !== "AdminUser" && scope.thisEntity !== "TestDetail"
             ? scope.thisEntity + "_id"
             : "id";
-            return scope.commonId;
+
+            console.log('commonId', scope.commonId);
+            // Student has another id clasification
+            if (scope.commonId !== 'user_id') {
+              scope.commonId = 'user_id';
+              return scope.commonId;
+              console.log('commonId reset', scope.commonId);
+            } else {
+              console.log('We don\'t have to see this');
+              return scope.commonId;
+            }
           };
 
           //check for dependencies in currentEntity
           function checkForPropertyBy () {
             if (scope.currentEntity.by) {
               getEntitiesWithDependencies();
+              console.log('check BY YES == TRUE', scope.currentEntity.by === true);
             }
             else {
               getEntitiesWithoutDependencies();
@@ -47,6 +59,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
                   scope.thisEntity, scope.currentEntity.by.parentEntity, id
                   )
                 .then(function (resp) {
+                  console.log('resp inside directive', resp);
                   gettingResponseHandler (resp);
                 });
                 break;
@@ -88,7 +101,8 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
 
           //create array with entities if response has data
           function gettingResponseHandler (resp) {
-            scope.entities = resp.data;
+            scope.entities = resp;
+            console.log('Beautiful response ', resp);
             scope.noData = "Немає записів";
           };
 
