@@ -1,5 +1,5 @@
 ;
-app.controller('groupsCtrl', ['$scope', 'entitiesSrvc', function($scope, entitiesSrvc){
+app.controller('groupsCtrl', ['$scope', '$stateParams', '$state', 'entitiesSrvc', function($scope, $stateParams, $state, entitiesSrvc){
 
 
   $scope.thisEntity = "group";
@@ -7,9 +7,15 @@ app.controller('groupsCtrl', ['$scope', 'entitiesSrvc', function($scope, entitie
 
 		entitiesSrvc.getEntities($scope.thisEntity).then(function(httpData) {
           	$scope.groups = httpData;
+
+                console.log('Andriy says groups ', $scope.groups);
         });
 
 
+
+  $scope.enterToEntity = function(to, entityId) {
+    $state.go(to ,{'id': entityId});
+  };
 
 
 //function shows and hides the form for creating new entity
