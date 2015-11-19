@@ -115,6 +115,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
       templateUrl: 'app/views/groupList.html',
       controller: 'groupsCtrl'
     }).
+
+
+
+
     state('admin.educationInfo.faculties', {
       url: '/faculties',
       templateUrl: 'app/views/facultyList.html',
@@ -154,15 +158,25 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
       url: '/usersTabs',
       templateUrl: 'app/views/usersTabs.html'
     }).
+
+
+
     state('admin.usersTabs.students', {
-      url: '/students',
+      url: '/students/:id',
       templateUrl: 'app/views/studentsList.html',
       controller: 'entitiesCtrl'
     }).
-    state('admin.addStudent', {
+
+
+/*    state('admin.usersTabs.students', {
+      url: '/students',
+      templateUrl: 'app/views/studentsList.html',
+      controller: 'entitiesCtrl'
+    }).*/
+/*    state('admin.addStudent', {
       url: '/students/addStudent',
       templateUrl: 'app/views/addStudentRecord.html'
-    }).
+    }).*/
     state('admin.timeTable', {
       url: '/timeTable/:id',
       templateUrl: 'app/views/timeTableList.html',
