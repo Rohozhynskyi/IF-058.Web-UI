@@ -42,11 +42,13 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
               case 'test':
               case 'TestDetail':
               case 'answer':
+              case 'student':
                 entitiesSrvc.getEntitiesByEntity(
                   scope.thisEntity, scope.currentEntity.by.parentEntity, id
                   )
                 .then(function (resp) {
                   gettingResponseHandler (resp);
+                  console.log("hello form service ", resp);
                 });
                 break;
               case 'question':
