@@ -1,6 +1,6 @@
 ;
 
-app.factory('entitiesSrvc', ['$http', 'baseUrl', function ($http, baseUrl) {
+app.factory('entitiesSrvc', ['$http', 'baseUrl', 'entityObj', function ($http, baseUrl, entityObj) {
 
   var dependencies = {
       group : 'speciality,faculty',
@@ -40,7 +40,31 @@ app.factory('entitiesSrvc', ['$http', 'baseUrl', function ($http, baseUrl) {
 
     getEntitiesByEntity: function (entity, parentEntity, id) {
       return $http.get(baseUrl + entity + '/get'+entity[0].toUpperCase()+entity.slice(1) + 's' + 'By' + parentEntity[0].toUpperCase()+parentEntity.slice(1) +'/' + id)
-        .then(fulfilled, rejected);
+        // .then(fulfilled, rejected);
+        .then(function (response) {
+
+          console.log('Serives entity ', entity);
+          console.log('response ', response);
+          console.log('Serives entityObj  ', entityObj['student']['by']['parentEntity']);
+
+        if (entityObj[entity]['by']['parentEntity'] != undefined) {
+            var depArr = entityObj[entity]['by']['parentEntity'].split(',');
+
+            console.log('response DATA ', response.data);
+
+            data = {};
+            data.list = response.data;
+            for (depId in depArr) {
+              if (depId != (depArr.length - 1)) {
+                getDependecies(data, depArr[depId]);
+              }
+              else {
+                return getDependecies(data, depArr[depId]);
+              }
+            }
+          }
+        return response.data;
+      }, rejected);
     },
 
     getRecordsRangeByEntity: function (entity, parentEntity, id) {
@@ -69,7 +93,7 @@ app.factory('entitiesSrvc', ['$http', 'baseUrl', function ($http, baseUrl) {
               }
             }
           }
-        return response;
+        return response.data;
       }, rejected);
     },
 
