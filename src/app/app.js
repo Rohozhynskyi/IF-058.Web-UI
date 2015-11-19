@@ -62,6 +62,22 @@ app.value("entityObj", {
     },
     group_name: '',
     event_date: ''
+  },
+  "student": {
+    username: "",
+    password: "",
+    password_confirm: "",
+    email: "",
+    gradebook_id: "",
+    student_surname: "",
+    student_name: "",
+    student_fname: "",
+    group_id: "",
+    plain_password: "",
+    photo: "",
+    by: {
+      parentEntity: "group"
+    }
   }
 
 
@@ -139,7 +155,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     }).
     state('admin.usersTabs.students', {
       url: '/students',
-      templateUrl: 'app/views/studentsList.html'
+      templateUrl: 'app/views/studentsList.html',
+      controller: 'entitiesCtrl'
     }).
     state('admin.addStudent', {
       url: '/students/addStudent',
