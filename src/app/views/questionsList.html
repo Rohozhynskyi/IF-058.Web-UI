@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary pull-right" ui-sref="admin.testDetails({id:entities[0].test_id})" ng-click="">Параметри тесту</button>
+                    <button class="btn btn-primary pull-right" ui-sref="admin.testDetails({id:entities.data[0].test_id})" ng-click="">Параметри тесту</button>
                     <br/>
                     <br/>
                     <div ng-show="!entities">{{noData}}</div>
@@ -73,7 +73,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" ng-click="enterToEntity('admin.answers', entity.question_id)" role="button">
+                        <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities.data | filter:searchItem | orderBy:sortType:sortReverse" ng-click="enterToEntity('admin.answers', entity.question_id)" role="button">
                             <!-- read-only cells -->
                             <td class="usCenter">{{$index + 1}}</td>
                             <td class="col-md-7" ng-bind-html="entity.question_text | unsafe"></td>

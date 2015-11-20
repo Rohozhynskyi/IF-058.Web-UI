@@ -51,7 +51,7 @@
                   </tr>
                 </thead>
                 <tbody class="usCenter">
-                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}">
+                  <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities.list | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}">
                     <!-- read-only cells -->
                     <td>{{$index + 1}}</td>
                     <td class="col-md-3">{{entity.level}}</td>
