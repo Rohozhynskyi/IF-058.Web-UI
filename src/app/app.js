@@ -58,7 +58,7 @@ app.value("entityObj", {
   },
   "timeTable": {
     by: {
-      parentEntity: "subject"
+      parentEntity: "subject,group"
     },
     group_name: '',
     event_date: ''
