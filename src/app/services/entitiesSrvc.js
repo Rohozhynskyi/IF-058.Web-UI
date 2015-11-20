@@ -43,14 +43,9 @@ app.factory('entitiesSrvc', ['$http', 'baseUrl', 'entityObj', function ($http, b
         // .then(fulfilled, rejected);
         .then(function (response) {
 
-          console.log('Serives entity ', entity);
-          console.log('response ', response);
-          console.log('Serives entityObj  ', entityObj['student']['by']['parentEntity']);
-
         if (entityObj[entity]['by']['parentEntity'] != undefined) {
-            var depArr = entityObj[entity]['by']['parentEntity'].split(',');
 
-            console.log('response DATA ', response.data);
+            var depArr = entityObj[entity]['by']['parentEntity'].split(',');
 
             data = {};
             data.list = response.data;
@@ -74,7 +69,35 @@ app.factory('entitiesSrvc', ['$http', 'baseUrl', 'entityObj', function ($http, b
 
     getEntitiesForEntity: function (entity, parentEntity, id) {
       return $http.get(baseUrl + entity + '/getTimeTablesForSubject' + '/' + id)
-        .then(fulfilled, rejected);
+        .then(function (response) {
+
+          // console.log('Entity ', entity);
+          // console.log('Response ', response);
+
+        if (entityObj[entity]['by']['parentEntity'] != undefined) {
+
+            // console.log('Parent entity ', entityObj[entity]['by']['parentEntity']);
+
+            var depArr = entityObj[entity]['by']['parentEntity'].split(',');
+
+            console.log('HERE IS DEPARR ', depArr);
+            // console.log('WE GET response ', response);
+
+            data = {};
+            data.list = response.data;
+            for (depId in depArr) {
+              if (depId != (depArr.length - 1)) {
+                getDependecies(data, depArr[depId]);
+              }
+              else {
+                return getDependecies(data, depArr[depId]);
+              }
+            }
+          }
+        // return response.data;
+        console.log('RESP HAHAH ', response);
+        return response;
+      }, rejected);
     },
 
     getEntities: function (entity) {
