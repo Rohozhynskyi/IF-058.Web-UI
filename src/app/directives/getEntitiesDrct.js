@@ -7,6 +7,10 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
             defineCurrentEntity();
             defineNameOfId();
             checkForPropertyBy();
+
+            console.log('commonId OOOO', scope.commonId);
+            console.log('Objec of the entity OOOO', scope.entityObj);
+
           };
 
           //define currentEntity by comparing of thisEntity and properties of scope.entityObj
@@ -19,21 +23,24 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
 
           //define id of entity: "entity_id" or "id" (it returns from server)
           function defineNameOfId (){
-            scope.commonId =
-            scope.thisEntity !== "AdminUser" && scope.thisEntity !== "TestDetail"
-            ? scope.thisEntity + "_id"
-            : "id";
+
+            if (scope.thisEntity !== 'AdminUser' && scope.thisEntity !== 'TestDetail') {
+              scope.commonId = scope.thisEntity + '_id';
+            } else if (scope.thisEntity === 'student') {
+              scope.commonId = scope.thisEntity = 'user_id';
+            } else {
+              scope.commonId = 'id';
+            }
 
             console.log('commonId', scope.commonId);
+
+            return scope.commonId;
             // Student has another id clasification
-            if (scope.commonId !== 'user_id') {
-              scope.commonId = 'user_id';
-              return scope.commonId;
-              console.log('commonId reset', scope.commonId);
-            } else {
-              console.log('We don\'t have to see this');
-              return scope.commonId;
-            }
+            // if scope.commonId !== 'user_id') {
+            //   scope.commonId = 'user_id';
+            //   return scope.commonId;
+            //   console.log('commonId reset', scope.commonId);
+            // } 
           };
 
           //check for dependencies in currentEntity
@@ -75,19 +82,33 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
                 entitiesSrvc.getEntitiesForEntity(
                   scope.thisEntity, scope.currentEntity.by.parentEntity, id
                   )
-                .then(function (respTimeTable) {
-                  entitiesSrvc.getEntities("group").then(function (respGroups) {
-                      var groupsForTimeTable = respGroups.list;             
-                      for (var g=0; g<groupsForTimeTable.length; g++) {
-                        for (var i=0; i<respTimeTable.data.length; i++) {
-                          if (respTimeTable.data[i].group_id == groupsForTimeTable[g].group_id) {
-                            respTimeTable.data[i].group_name = groupsForTimeTable[g].group_name;
-                          };
-                        };
-                      };
-                      gettingResponseHandler (respTimeTable);
-                    });
-                });
+                .then(
+
+
+                function (resp) {
+                  console.log('RESP TIMETABLE', resp);
+                  gettingResponseHandler (resp);
+                }
+
+
+
+                // We are going to comment this
+                // function (respTimeTable) {
+                //   entitiesSrvc.getEntities("group").then(function (respGroups) {
+                //     var groupsForTimeTable = respGroups.list;             
+                //     for (var g=0; g<groupsForTimeTable.length; g++) {
+                //       for (var i=0; i<respTimeTable.data.length; i++) {
+                //         if (respTimeTable.data[i].group_id == groupsForTimeTable[g].group_id) {
+                //           respTimeTable.data[i].group_name = groupsForTimeTable[g].group_name;
+                //         };
+                //       };
+                //     };
+                //     gettingResponseHandler (respTimeTable);
+                //   });
+                // }
+
+
+                );
                 break;
 
             };
@@ -102,7 +123,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
           //create array with entities if response has data
           function gettingResponseHandler (resp) {
             scope.entities = resp;
-            console.log('Beautiful response ', resp);
+            console.log('RESPONSE FINISH (entities in the view) ', resp);
             scope.noData = "Немає записів";
           };
 
