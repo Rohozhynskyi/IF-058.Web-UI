@@ -17,12 +17,8 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 		template: [
 			'<div class="form-group navbar-btn">',
 				'<image-label image-src="{{ studPhoto.src }}" image-name="{{ studPhoto.name }}"></image-label>',
-				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name"></image-input>',
-				'<div class="progress">',
-					'<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">',
-						'60%',
-					'</div>',
-				'</div>',
+				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name" pic-load-text="studPhoto.text" pic-load-num="studPhoto.num"></image-input>',
+				'<image-bar load-text="{{ studPhoto.text }}" load-num="{{ studPhoto.num }}"></image-bar>',
 			'</div>'
 			].join('\n'),
 		controller: ['$scope', imageLoadCtrl],
@@ -34,6 +30,13 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 }]);
 
 
+/*
+/ __________________________________________________________________________________
+/ 
+/ IMAGE LABEL
+/ __________________________________________________________________________________
+/ 
+*/
 app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $interval) {
 
 	function link ($scope, $element, $attrs, ctrls) {
@@ -88,8 +91,74 @@ app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $inter
 
 
 
+/*
+/ __________________________________________________________________________________
+/ 
+/ IMAGE BAR
+/ __________________________________________________________________________________
+/ 
+*/
+app.directive('imageBar', ['$timeout', '$interval', function ($timeout, $interval) {
+
+	function link ($scope, $element, $attrs, ctrls) {
+		var parentCtrl = ctrls[0]
+			, loadingText
+			, loadingNumber;
+
+		$scope.$watch('[loadText, loadNum]', changeBarMetrics, true);
 
 
+		function changeBarMetrics (newValue, oldValue, scope) {
+
+			// inner variables
+
+			// loadingText = newValue[0];
+			// loadingNumber = newValue[1];
+
+			$scope.loadText = newValue[0];
+			$scope.loadNumber = newValue[1];
+
+			// if (loadingText && loadingNumber) {
+
+			// 	//some infor here
+
+			// } // END if statement
+		} // END changeBarMetrics
+
+
+	}// END link function
+
+
+
+
+
+	return {
+		restrict: 'E',
+		scope: {
+			loadText: '@',
+			loadNum: '@'
+		},
+		require: ['^imageLoad'],
+		template: [
+			'<div class="progress">',
+				'<div class="progress-bar" role="progressbar" aria-valuenow="{{ loadNum }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ loadNum }}%;">',
+					'{{ loadNum }}%',
+				'</div>',
+			'</div>'
+		].join('\n'),
+		link: link
+	};
+
+}]);
+
+
+/*
+/ __________________________________________________________________________________
+/ 
+/ IMAGE INPUT
+/ __________________________________________________________________________________
+/ 
+*/
 app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window) {
 
 	// Cut file name function
@@ -147,6 +216,9 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 						// Increase the progress bar length.
 						if (percentLoaded < 100) {
 							console.log('percent loaded ', percentLoaded);
+							$scope.$apply(function () {
+								$scope.pictureLoadNum = percentLoaded;
+							});
 							// progress.style.width = percentLoaded + '%';
 							// progress.textContent = percentLoaded + '%';
 						}
@@ -197,6 +269,7 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 					$scope.$apply(function () {
 						$scope.pictureSrc = e.target.result;
 						$scope.pictureName = $scope.cutName;
+						$scope.pictureLoadNum = 100;
 					});
 					// progress.style.width = '100%';
 					// progress.textContent = '100%';
@@ -224,6 +297,8 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 		scope: {
 			pictureSrc: '=picSrc',
 			pictureName: '=picName',
+			pictureLoadText: '=picLoadText',
+			pictureLoadNum: '=picLoadNum',
 		},
 		require: ['^imageLoad'],
 		link: link
