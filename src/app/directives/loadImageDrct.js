@@ -85,7 +85,7 @@ app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $inter
 
 
 
-app.directive('imageInput', ['$timeout', function ($timeout) {
+app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window) {
 
 	// Cut file name function
 	function fileCutName (str, slength) {
@@ -114,14 +114,28 @@ app.directive('imageInput', ['$timeout', function ($timeout) {
 			$scope.cutName = fileCutName(fileName, -11);
 			el.text($scope.cutName); // HERE must be a problem
 
-			reader = new FileReader();
-			reader.onload = function (loadEvent) {
-				$scope.$apply(function () {
-					$scope.pictureSrc = loadEvent.target.result;
-					$scope.pictureName = $scope.cutName;
-				});
-			};
-			reader.readAsDataURL(fileTarget);
+
+			// Check for the File API in the window object.
+			if ($window.File && $window.FileReader && $window.FileList && $window.Blob) {
+
+				reader = new FileReader();
+				reader.onload = function (loadEvent) {
+					$scope.$apply(function () {
+						$scope.pictureSrc = loadEvent.target.result;
+						$scope.pictureName = $scope.cutName;
+					});
+				};
+				reader.readAsDataURL(fileTarget);
+
+			} else {
+				$window.alert('File APIs неповністю підтримується в даному браузері.');
+			}
+
+
+
+
+
+
 		}); // END element bind
 
 
