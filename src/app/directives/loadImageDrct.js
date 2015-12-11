@@ -18,6 +18,11 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 			'<div class="form-group navbar-btn">',
 				'<image-label image-src="{{ studPhoto.src }}" image-name="{{ studPhoto.name }}"></image-label>',
 				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name"></image-input>',
+				'<div class="progress">',
+					'<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">',
+						'60%',
+					'</div>',
+				'</div>',
 			'</div>'
 			].join('\n'),
 		controller: ['$scope', imageLoadCtrl],
@@ -96,15 +101,73 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 	}
 
 
-	function link ($scope, $element, $attrs, ctrls) {
+		function link ($scope, $element, $attrs, ctrls) {
 		var parentCtrl = ctrls[0]
 			, fileTarget
 			, fileName
 			, el = $element.parent().find('.file-name')
-			, reader;
+			, reader
+			, progress = $element.parent().find('.progress')
+			, progressBar = progress['0'].firstElementChild;
+
+			console.log('here is progress', progress);
+			console.log('here is progress', progressBar);
+			// console.log('here are attrs', progress.attr());
 		// This functionality needs to be here ...
 		// ... because of access to parentCtrl methods after onload event
-		$element.bind('change', function (changeEvent) {
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+				function abortRead() {
+					reader.abort();
+				}
+
+				function errorHandler(evt) {
+					switch(evt.target.error.code) {
+						case evt.target.error.NOT_FOUND_ERR:
+							alert('Файл не знайдено!');
+							break;
+						case evt.target.error.NOT_READABLE_ERR:
+							alert('Не вдалося прочитати файл.');
+							break;
+						case evt.target.error.ABORT_ERR:
+							break; // noop
+						default:
+							alert('Виникла помилка при спробі прочитати файл.');
+					};
+				}
+
+				function updateProgress(evt) {
+					// evt is an ProgressEvent.
+					if (evt.lengthComputable) {
+						var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+						// Increase the progress bar length.
+						if (percentLoaded < 100) {
+							console.log('percent loaded ', percentLoaded);
+							// progress.style.width = percentLoaded + '%';
+							// progress.textContent = percentLoaded + '%';
+						}
+					}
+				}
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+
+
+		function myFileSelect (changeEvent) {
+
+			// Check for the File API in the window object.
+			if ($window.File && $window.FileReader && $window.FileList && $window.Blob) {
+
 
 			// Define fileTarget and fileName after change method (jqLite method)
 			fileTarget = changeEvent.target.files[0];
@@ -115,28 +178,41 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 			el.text($scope.cutName); // HERE must be a problem
 
 
-			// Check for the File API in the window object.
-			if ($window.File && $window.FileReader && $window.FileList && $window.Blob) {
+				reader = new FileReader(); // Creates new FileReaser Object
+				reader.onerror = errorHandler;
+				reader.onprogress = updateProgress;
+				reader.onabort = function(e) {
+					alert('File read cancelled');
+				};
 
-				reader = new FileReader();
-				reader.onload = function (loadEvent) {
+				reader.onloadstart = function(e) {
+					// document.getElementById('progress_bar').className = 'loading';
+				};
+
+				reader.onload = function(e) {
+					// Ensure that the progress bar displays 100% at the end.
+
+
+					// My scope apply
 					$scope.$apply(function () {
-						$scope.pictureSrc = loadEvent.target.result;
+						$scope.pictureSrc = e.target.result;
 						$scope.pictureName = $scope.cutName;
 					});
+					// progress.style.width = '100%';
+					// progress.textContent = '100%';
+
+					setTimeout("document.getElementById('progress_bar').className='';", 2000);
+
 				};
 				reader.readAsDataURL(fileTarget);
 
 			} else {
 				$window.alert('File APIs неповністю підтримується в даному браузері.');
 			}
+		}
 
 
-
-
-
-
-		}); // END element bind
+		$element.bind('change', myFileSelect); // END element bind
 
 
 	} // END LINK FUNCTION
