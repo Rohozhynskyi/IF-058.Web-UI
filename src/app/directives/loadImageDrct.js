@@ -228,24 +228,27 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 			// Check for the File API in the window object.
 			if ($window.File && $window.FileReader && $window.FileList && $window.Blob) {
 
-
 			// Define fileTarget and fileName after change method (jqLite method)
 			fileTarget = changeEvent.target.files[0];
 			fileName = fileTarget.name;
-
-			// Define cutted nama of the file and change the value of the button
-			$scope.cutName = fileCutName(fileName, -11);
-			el.text($scope.cutName); // HERE must be a problem
-
 
 				reader = new FileReader(); // Creates new FileReaser Object
 				reader.onerror = errorHandler;
 				reader.onprogress = updateProgress;
 				reader.onabort = function(e) {
-					alert('File read cancelled');
+					alert('Завантаження відмінено. Мабуть розмір файлу більший ніж 2Mb.');
 				};
 
 				reader.onloadstart = function(e) {
+					if (fileTarget.size > 2000000) {
+						abortRead();
+						return;
+					} else {
+						// Define cutted nama of the file and change the value of the button
+						$scope.cutName = fileCutName(fileName, -11);
+						el.text($scope.cutName); // HERE must be a problem
+					}
+
 					progress.css('opacity', 1);
 					// document.getElementById('progress_bar').className = 'loading';
 				};
