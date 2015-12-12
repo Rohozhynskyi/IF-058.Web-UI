@@ -22,6 +22,7 @@ app.directive('addStudent', ['entitiesSrvc', function (entitiesSrvc){
 		}
 
 
+
 		function createComplexObj(obj) {
 			// Seperate scope variable
 			scope.editingObj = {};
@@ -65,8 +66,11 @@ app.directive('addStudent', ['entitiesSrvc', function (entitiesSrvc){
 					photo: scope.editingObj.photo
 				};
 
+				scope.$broadcast('updatedInViewStudent', { picture: scope.editingStudent.photo });
+
 			});
 		}// END createEditingStorage
+
 
 		// Show edit panel for a student
 		scope.editStudent = null;
@@ -78,6 +82,7 @@ app.directive('addStudent', ['entitiesSrvc', function (entitiesSrvc){
 				scope.actclass = 'active-student';
 				scope.currId = stud.user_id;
 				createComplexObj(stud);
+
 			} else {
 				scope.editStudent = null;
 			}
@@ -111,6 +116,8 @@ app.directive('addStudent', ['entitiesSrvc', function (entitiesSrvc){
 		scope.editStud = function () {
 			var passConfirmed;
 			editRecordPhoto(scope.editingStudent);
+
+			console.log('editing SUKA ', scope.edititngStudent);
 
 			var editedDataStud = {
 				// User DATA
@@ -147,11 +154,11 @@ app.directive('addStudent', ['entitiesSrvc', function (entitiesSrvc){
 						scope.editStudent = null; // Close editing form
 						} else {
 							scope.editStudent = null; // Close editing form
-							throw new Error('Nothing was changed! ' + response.data.response);
+							throw new Error('Дані не було змінено! ' + response.data.response);
 						}
 					}); // END .then
 			} else {
-				throw new Error ('Password is not confirmed or is incorrect ' + passConfirmed);
+				throw new Error ('Пароль було не підтверджено або повторне введення невірне! ' + passConfirmed);
 			}
 		};
 

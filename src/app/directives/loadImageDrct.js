@@ -3,12 +3,34 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 	// imageLoad directive link function
 	function link ($scope, $element, $attrs, $ctrls) {
 
+
 	}
 
 	// imageLoad directive controller function
 	function imageLoadCtrl ($scope) {
 		$scope.studPhoto = {};
-		$scope.path = $scope.studPhoto;
+		// $scope.path = $scope.studPhoto;
+
+
+		$scope.$watch('path', function (newValue, oldValue, scope) {
+			console.log('updated through watcher', $scope.path);
+
+			$scope.studPhoto = newValue;
+
+			console.log('naw yobanui object ', $scope.studPhoto);
+
+
+			// if (!(newValue.photo) || (newValue.photo === '')) {
+			// 	// some context
+			// } else {
+			// 	$scope.studPhoto.src = newValue.photo;
+			// }
+
+		});
+
+
+
+
 	}
 
 
@@ -16,7 +38,7 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 		restrict: 'E',
 		template: [
 			'<div class="form-group navbar-btn">',
-				'<image-label image-src="{{ studPhoto.src }}" image-name="{{ studPhoto.name }}"></image-label>',
+				'<image-label image-src="{{ studPhoto.src ? studPhoto.src : studPhoto.photo }}" image-name="{{ studPhoto.name ? studPhoto.name : studPhoto.student_name }}"></image-label>',
 				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name" pic-load-text="studPhoto.text" pic-load-num="studPhoto.num"></image-input>',
 				'<image-bar load-text="{{ studPhoto.text }}" load-num="{{ studPhoto.num }}"></image-bar>',
 			'</div>'
@@ -41,7 +63,6 @@ app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $inter
 
 	function link ($scope, $element, $attrs, ctrls) {
 		var parentCtrl = ctrls[0]
-			, img
 			, picSrc
 			, picName;
 
@@ -111,25 +132,12 @@ app.directive('imageBar', ['$timeout', '$interval', function ($timeout, $interva
 		function changeBarMetrics (newValue, oldValue, scope) {
 
 			// inner variables
-
-			// loadingText = newValue[0];
-			// loadingNumber = newValue[1];
-
 			$scope.loadText = newValue[0];
 			$scope.loadNumber = newValue[1];
 
-			// if (loadingText && loadingNumber) {
-
-			// 	//some infor here
-
-			// } // END if statement
 		} // END changeBarMetrics
 
-
 	}// END link function
-
-
-
 
 
 	return {
@@ -170,7 +178,8 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 	}
 
 
-		function link ($scope, $element, $attrs, ctrls) {
+	function link ($scope, $element, $attrs, ctrls) {
+
 		var parentCtrl = ctrls[0]
 			, fileTarget
 			, fileName
@@ -179,48 +188,37 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 			, progress = $element.parent().find('.progress')
 			, progressBar = progress['0'].firstElementChild;
 
-			console.log('here is progress', progress);
-			console.log('here is progress', progressBar);
+		function abortRead() {
+			reader.abort();
+		}
 
-		// This functionality needs to be here ...
-		// ... because of access to parentCtrl methods after onload event
+		function errorHandler(evt) {
+			switch(evt.target.error.code) {
+				case evt.target.error.NOT_FOUND_ERR:
+					alert('Файл не знайдено!');
+					break;
+				case evt.target.error.NOT_READABLE_ERR:
+					alert('Не вдалося прочитати файл.');
+					break;
+				case evt.target.error.ABORT_ERR:
+					break; // noop
+				default:
+					alert('Виникла помилка при спробі прочитати файл.');
+			};
+		}
 
-
-
-//////////////////////////////////////////////////////////////////////
-
-
-				function abortRead() {
-					reader.abort();
+		function updateProgress(evt) {
+			// evt is an ProgressEvent.
+			if (evt.lengthComputable) {
+				var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+				// Increase the progress bar length.
+				if (percentLoaded < 100) {
+					$scope.$apply(function () {
+						$scope.pictureLoadNum = percentLoaded; // Update scope pictureLoadNum variable
+					});
 				}
-
-				function errorHandler(evt) {
-					switch(evt.target.error.code) {
-						case evt.target.error.NOT_FOUND_ERR:
-							alert('Файл не знайдено!');
-							break;
-						case evt.target.error.NOT_READABLE_ERR:
-							alert('Не вдалося прочитати файл.');
-							break;
-						case evt.target.error.ABORT_ERR:
-							break; // noop
-						default:
-							alert('Виникла помилка при спробі прочитати файл.');
-					};
-				}
-
-				function updateProgress(evt) {
-					// evt is an ProgressEvent.
-					if (evt.lengthComputable) {
-						var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
-						// Increase the progress bar length.
-						if (percentLoaded < 100) {
-							$scope.$apply(function () {
-								$scope.pictureLoadNum = percentLoaded; // Update scope pictureLoadNum variable
-							});
-						}
-					}
-				}
+			}
+		}
 
 
 		function myFileSelect (changeEvent) {
@@ -262,13 +260,13 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 						$scope.pictureLoadNum = 100; // Ensure that the progress bar displays 100% at the end.
 					});
 
-					// setTimeout("document.getElementById('progress_bar').className='';", 2000); // WE need this to hide our progress bar after loading
-
+					// Hide progress bar after loading
 					$timeout(function () {
 						progress.css('opacity', 0);
-					}, 2000); // WE need this to hide our progress bar after loading
+					}, 2000);
 
 				};
+
 				reader.readAsDataURL(fileTarget);
 
 			} else {
@@ -277,7 +275,6 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 		}
 
 		$element.bind('change', myFileSelect); // END element bind
-
 
 	} // END LINK FUNCTION
 
