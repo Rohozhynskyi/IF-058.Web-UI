@@ -140,8 +140,8 @@ app.directive('imageBar', ['$timeout', '$interval', function ($timeout, $interva
 		},
 		require: ['^imageLoad'],
 		template: [
-			'<div class="progress">',
-				'<div class="progress-bar" role="progressbar" aria-valuenow="{{ loadNum }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ loadNum }}%;">',
+			'<div class="progress press">',
+				'<div class="progress-bar press-bar" role="progressbar" aria-valuenow="{{ loadNum }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ loadNum }}%;">',
 					'{{ loadNum }}%',
 				'</div>',
 			'</div>'
@@ -181,7 +181,7 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 
 			console.log('here is progress', progress);
 			console.log('here is progress', progressBar);
-			// console.log('here are attrs', progress.attr());
+
 		// This functionality needs to be here ...
 		// ... because of access to parentCtrl methods after onload event
 
@@ -215,24 +215,12 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 						var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
 						// Increase the progress bar length.
 						if (percentLoaded < 100) {
-							console.log('percent loaded ', percentLoaded);
 							$scope.$apply(function () {
-								$scope.pictureLoadNum = percentLoaded;
+								$scope.pictureLoadNum = percentLoaded; // Update scope pictureLoadNum variable
 							});
-							// progress.style.width = percentLoaded + '%';
-							// progress.textContent = percentLoaded + '%';
 						}
 					}
 				}
-
-
-
-
-
-
-//////////////////////////////////////////////////////////////////////
-
-
 
 
 		function myFileSelect (changeEvent) {
@@ -258,23 +246,24 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 				};
 
 				reader.onloadstart = function(e) {
+					progress.css('opacity', 1);
 					// document.getElementById('progress_bar').className = 'loading';
 				};
 
 				reader.onload = function(e) {
-					// Ensure that the progress bar displays 100% at the end.
-
 
 					// My scope apply
 					$scope.$apply(function () {
 						$scope.pictureSrc = e.target.result;
 						$scope.pictureName = $scope.cutName;
-						$scope.pictureLoadNum = 100;
+						$scope.pictureLoadNum = 100; // Ensure that the progress bar displays 100% at the end.
 					});
-					// progress.style.width = '100%';
-					// progress.textContent = '100%';
 
-					setTimeout("document.getElementById('progress_bar').className='';", 2000);
+					// setTimeout("document.getElementById('progress_bar').className='';", 2000); // WE need this to hide our progress bar after loading
+
+					$timeout(function () {
+						progress.css('opacity', 0);
+					}, 2000); // WE need this to hide our progress bar after loading
 
 				};
 				reader.readAsDataURL(fileTarget);
@@ -283,7 +272,6 @@ app.directive('imageInput', ['$timeout', '$window', function ($timeout, $window)
 				$window.alert('File APIs неповністю підтримується в даному браузері.');
 			}
 		}
-
 
 		$element.bind('change', myFileSelect); // END element bind
 
