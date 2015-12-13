@@ -19,7 +19,9 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 
 			console.log('naw yobanui object ', $scope.studPhoto);
 
-
+///////
+/// проблема з об'єктами. студфото і едітінгстудент мають різні поля. тому директива буде працювати по різному з різними операціями або будеть помилки'
+//////////////////////
 			// if (!(newValue.photo) || (newValue.photo === '')) {
 			// 	// some context
 			// } else {
