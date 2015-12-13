@@ -15,20 +15,23 @@
 </div>
 <div class="questionBar">
     <div class="question clearfix well">
-        <p ng-bind-html="question | unsafe"></p>
+        <p ng-bind-html="question.question_text | unsafe"></p>
+        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="" ng-show="question.attachment != 'added'" alt=""/>
     </div>
     <form name="ansForm" class="answer clearfix well">
         <div ng-repeat='answer in answers'>
             <label ng-show="type == 'radio'">
                 <input  type='radio' name="answer" ng-model="$parent.radioValue"
-                       ng-value="{{answer.answer_id}}"/>
+                        ng-value="{{answer.answer_id}}"/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
                 <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
-                                             ng-show="answer.attachment != 'added'" alt=""/>
+                     ng-show="answer.attachment != 'added'" alt=""/>
             </label>
             <label ng-show="type == 'checkbox'">
                 <input type='checkbox' checklist-model="checklistValue" checklist-value="answer.answer_id" ng-click='clicked()'/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
+                <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
+                     ng-show="answer.attachment != 'added'" alt=""/>
             </label>
         </div>
     </form>

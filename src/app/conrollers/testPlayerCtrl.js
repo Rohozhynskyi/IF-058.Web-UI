@@ -101,7 +101,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                         userSrvc.getInfoForStudent(answerUrl, data)
                     ])
                         .then(function (resp) {
-                            $scope.question = resp[0].data[0].question_text;
+                            $scope.question = resp[0].data[0];
                             $scope.answers = resp[1].data;
                             $scope.type = resp[0].data[0].type == '1' ? 'radio' : 'checkbox';
                             if (localStorage.getItem('levelsArr')) {
