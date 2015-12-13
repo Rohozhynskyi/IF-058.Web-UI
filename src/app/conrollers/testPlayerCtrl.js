@@ -1,8 +1,8 @@
 testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userSrvc', '$stateParams', '$state', '$q', '$timeout',
     function ($scope, $rootScope, userSrvc, $stateParams, $state, $q, $timeout) {
         $scope.beginTest = function () {
-            if (JSON.parse(localStorage.getItem('finalGrade'))){
-                $scope.finalGrade = (JSON.parse(localStorage.getItem('finalGrade'))).toFixed(2)    
+            if($scope.finalGrade) {
+                $scope.finalGrade = (JSON.parse(localStorage.getItem('finalGrade'))).toFixed(2)// кажется що так бичо спитати як можна переробити
             }
             var url = 'testPlayer/getData';
             var data = '';
@@ -20,16 +20,21 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             var timeStart = new Date(savedTestData.startTime * 1000);
                             var remeinedTime = (timeStart - timeDifference);
                             $scope.counter = (remeinedTime / 1000);
-                            $scope.mytimeout = $timeout($scope.onTimeout, 1000);
-                            if ($scope.counter === 0) {
-                                timeIsOut();
-                            }
+                            console.log($scope.counter, '$scope.counter');
                         })
                     };
-                    $scope.mytimeout = $timeout($scope.onTimeout, 1000);
                 }
-
                 timer();
+
+                $scope.leftTime = function(){
+                    if ($scope.counter === 0) {
+                        timeIsOut();
+                    }
+                    $scope.counter--;
+                    mytimeout = $timeout($scope.leftTime,1000);
+                };
+                var mytimeout = $timeout($scope.leftTime,1000);
+
                 function timeIsOut() {
                     $scope.counter = 0;
                     $timeout.cancel($scope.mytimeout);
@@ -64,6 +69,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 var levelsArr = [];
 
                 function nextQuestion(data) {
+                    $scope.onTimeout();
                     var questionUrl = 'question/getRecords/';
                     var answerUrl = 'SAnswer/getAnswersByQuestion/';
                     $q.all([
@@ -104,7 +110,8 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 if (!localStorage.getItem('userAnswers')) {
                     localStorage.setItem('userAnswers', JSON.stringify(userAnswers))
                 }
-                $scope.submitQuestion = function (radioValue) {
+                $scope.submitQuestion = function (radioValue, index) {
+                    //$scope.checked = index;
                     userAnswers = JSON.parse(localStorage.getItem('userAnswers'));
                     answerObj.question_id = $scope.quest;
                     if ($scope.type === 'radio') {
@@ -125,6 +132,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     } else {
                         $state.go('user.testPlayer', {id: 1});
                     }
+
                 };
 
                 var countResultArr = []

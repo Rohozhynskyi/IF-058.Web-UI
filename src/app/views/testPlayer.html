@@ -8,8 +8,8 @@
             <a ui-sref="user.testPlayer({id:$index + 1})"
                ng-click='firstQuestion(questNumber, $index)'
                ng-repeat='questNumber in questionList'
-               ng-class="{selectedItem: $index == selected}"
-                    >{{$index + 1}}</a>
+               ng-class="{selectedItem: $index == selected}">{{$index + 1}}</a>
+            <!--checkedItem: ansForm.$pristine-->
         </div>
     </div>
 </div>
@@ -17,7 +17,7 @@
     <div class="question clearfix well">
         <p ng-bind-html="question | unsafe"></p>
     </div>
-    <div class="answer clearfix well">
+    <form name="ansForm" class="answer clearfix well">
         <div ng-repeat='answer in answers'>
             <label ng-show="type == 'radio'">
                 <input  type='radio' name="answer" ng-model="$parent.radioValue"
@@ -31,9 +31,9 @@
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
             </label>
         </div>
-    </div>
+    </form>
     <div class="submitQuestion">
         {{select.answers}}
-        <input class="btn btn-primary" type="button" value="Підтвердити" ng-click="submitQuestion(radioValue)"/>
+        <input ng-disabled="ansForm.$pristine" class="btn btn-primary" type="button" value="Підтвердити" ng-click="submitQuestion(radioValue, index)"/>
     </div>
 </div>
