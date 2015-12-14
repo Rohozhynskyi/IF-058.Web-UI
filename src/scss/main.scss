@@ -417,6 +417,9 @@ a.selectedItem {
   border-radius: 50%;
   background-color: #3175B0;
 }
+a.checkedItem {
+  color: deeppink;
+}
 
 @import '_variables.scss';
 @import '_mixins.scss';
