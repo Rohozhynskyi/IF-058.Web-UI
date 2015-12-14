@@ -12,23 +12,25 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 		// $scope.path = $scope.studPhoto;
 
 
+
 		$scope.$watch('path', function (newValue, oldValue, scope) {
-			console.log('updated through watcher', $scope.path);
 
-			$scope.studPhoto = newValue;
+			if (newValue !== undefined) {
+				var loadedPhoto = newValue;
+				$scope.studPhoto.src = loadedPhoto;
 
-			console.log('naw yobanui object ', $scope.studPhoto);
-
-///////
-/// проблема з об'єктами. студфото і едітінгстудент мають різні поля. тому директива буде працювати по різному з різними операціями або будеть помилки'
-//////////////////////
-			// if (!(newValue.photo) || (newValue.photo === '')) {
-			// 	// some context
-			// } else {
-			// 	$scope.studPhoto.src = newValue.photo;
-			// }
+				console.log('watcher on path ===========> ', loadedPhoto);
+				console.log('naw object ', $scope.studPhoto);
+			} else {
+				// $scope.path = $scope.studPhoto;
+			}
 
 		});
+
+		if ($scope.path === '') {
+			$scope.path = $scope.studPhoto;
+		}
+
 
 
 
@@ -40,7 +42,7 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 		restrict: 'E',
 		template: [
 			'<div class="form-group navbar-btn">',
-				'<image-label image-src="{{ studPhoto.src ? studPhoto.src : studPhoto.photo }}" image-name="{{ studPhoto.name ? studPhoto.name : studPhoto.student_name }}"></image-label>',
+				'<image-label image-src="{{ studPhoto.src }}" image-name="{{ studPhoto.name || \' Виберіть фото студента \' }}"></image-label>',
 				'<image-input pic-src="studPhoto.src" pic-name="studPhoto.name" pic-load-text="studPhoto.text" pic-load-num="studPhoto.num"></image-input>',
 				'<image-bar load-text="{{ studPhoto.text }}" load-num="{{ studPhoto.num }}"></image-bar>',
 			'</div>'
@@ -104,7 +106,7 @@ app.directive('imageLabel', ['$timeout', '$interval', function ($timeout, $inter
 		template: [
 			'<label class="btn btn-default btn-sm" for="photo">',
 				'<span class="glyphicon glyphicon-cloud-upload"></span>',
-				'<span class="file-name">Виберіть фото студента</span>',
+				'<span class="file-name">{{ imageName || \' Фото студента\' }}</span>',
 			'</label>'
 		].join('\n'),
 		link: link
