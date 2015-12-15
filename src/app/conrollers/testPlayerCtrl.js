@@ -51,18 +51,13 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
 
                 $scope.leftTime = function () {
                     if ($scope.counter === 0) {
-                        timeIsOut();
+                        $scope.finishTest()
                     }
                     $scope.counter--;
                     mytimeout = $timeout($scope.leftTime, 1000);
                 };
                 var mytimeout = $timeout($scope.leftTime, 1000);
 
-                function timeIsOut() {
-                    $scope.counter = 0;
-                    $timeout.cancel($scope.mytimeout);
-                    //$state.go('user.testResult');
-                }
 
                 var userId = localStorage.userId;
                 var testId = localStorage.testId;
@@ -180,7 +175,6 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                                 }
                             }
                         }
-                        timeIsOut();
                         console.log('countResultArr', countResultArr)
 
                         getStudentGrade()
