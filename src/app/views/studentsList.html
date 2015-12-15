@@ -15,15 +15,13 @@
 		</div><!-- END ng-show -->
 
 
+
+
+
+
+
 		<!-- DIVS appearence -->
 		<div ng-show="students" class="students-bootstrap">
-
-
-
-
-
-
-
 
 
 			<div ng-if="editStudent.user_id !== student.user_id"
@@ -32,26 +30,19 @@
 					 ng-click="enterToEntity('admin.resultsByStudent', student.user_id)"
 					 role="button">
 				<div class="row">
-					<div class="col col-xs-12 col-sm-1 col-md-1 col-lg-1 col-img">
+
+					<div class="col col-xs-12 col-sm-12 col-md-1 col-lg-1 col-img">
 						<img class="student-photo" 
 								 ng-src="{{ student.photo ? student.photo : imgStr }}"
 								 alt="{{student.student_surname }} {{ student.student_name }} photo">
 					</div><!-- END col -->
-					<div class="col col-xs-12 col-sm-11 col-md-11 col-lg-11">
-						<hgroup>
-							<h3>{{ student.student_surname }}</h3>
-							<h4>{{ student.student_name }} {{ student.student_fname }}</h4>
-						</hgroup>
-					</div><!-- END col -->
-				</div><!-- END row -->
-				<div class="row">
-					<div class="col col-xs-12 col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1 col-lg-1 col-lg-offset-1">
-						<span class="detail">{{ student.gradebook_id }}</span>
-					</div><!-- END col -->
-					<div class="col col-xs-12 col-sm-2 col-md-2 col-lg-2">
-						<span class="detail">{{ student.plain_password }}</span>
-					</div><!-- END col -->
-					<div class="col col-xs-12 col-sm-3 col-sm-offset-5 col-md-3 col-md-offset-5 col-lg-3 col-lg-offset-5">
+
+					<div class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">{{ student.student_surname }}</div>
+					<div class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">{{ student.student_name }}</div>
+					<div class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">{{ student.student_fname }}</div>
+					<div class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">{{ student.gradebook_id }}</div>
+					<div class="col col-xs-12 col-sm-12 col-md-2 col-lg-2">{{ student.plain_password }}</div>
+					<div class="col col-xs-12 col-sm-12 col-md-1 col-lg-1">
 						<span class="buttons pull-right">
 
 							<button class="btn btn-info btn-sm"
@@ -65,7 +56,8 @@
 								<span class="glyphicon glyphicon-trash"></span>
 							</button>
 						</span>
-					</div><!-- END col -->
+					</div>
+
 				</div><!-- END row -->
 			</div><!-- END div repeat start -->
 
