@@ -40,6 +40,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
 
           function getEntitiesWithDependencies() {
             var id = $stateParams.id;
+
             //using different methods for dependencies of different entities
             switch (scope.thisEntity) {
               case 'test':
@@ -79,6 +80,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
               //   });
               //   break;
               case 'result':
+              if (!id) { id = localStorage.userId };
                 entitiesSrvc.getRecordsByStudent(scope.thisEntity, id)
                 .then(function (resp) {
                   gettingResponseHandler (resp);
