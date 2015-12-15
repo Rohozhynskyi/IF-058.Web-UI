@@ -12,29 +12,17 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 		// $scope.path = $scope.studPhoto;
 
 
-
-		$scope.$watch('path', function (newValue, oldValue, scope) {
-
-			if (newValue !== undefined) {
-				var loadedPhoto = newValue;
-				$scope.studPhoto.src = loadedPhoto;
-
-				console.log('watcher on path ===========> ', loadedPhoto);
-				console.log('naw object ', $scope.studPhoto);
-			} else {
-				// $scope.path = $scope.studPhoto;
-			}
-
-		});
-
-		if ($scope.path === '') {
+		if ($scope.path === undefined || $scope.path === '') {
 			$scope.path = $scope.studPhoto;
+		} else {
+			$scope.$watch('path', function (newValue, oldValue, scope) {
+				var loadedPhoto;
+				if ((newValue !== undefined) && (newValue !== '')) {
+					loadedPhoto = newValue; // newValue is a path of the photo that exists
+					$scope.studPhoto.src = loadedPhoto;
+				}
+			});
 		}
-
-
-
-
-
 	}
 
 
@@ -134,13 +122,10 @@ app.directive('imageBar', ['$timeout', '$interval', function ($timeout, $interva
 
 
 		function changeBarMetrics (newValue, oldValue, scope) {
-
 			// inner variables
 			$scope.loadText = newValue[0];
 			$scope.loadNumber = newValue[1];
-
 		} // END changeBarMetrics
-
 	}// END link function
 
 
