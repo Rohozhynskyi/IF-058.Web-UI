@@ -36,13 +36,13 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 		gettingResponseHandler (resp);
 	});
 
-	// Getting records request handler
+	//Getting records request handler
 	function gettingResponseHandler (resp) {
-		// if (resp.list[0][0] == "record_id" && resp.list[0][1] == "null") {
+		 if (resp.list[0][0] == "record_id" && resp.list[0][1] == "null") {
 		  $scope.noData = "Немає записів";
-		// } else {
+		 } else {
 		  $scope.agendaItems = resp;
-		// }	
+		}	
 	};
 /*_________________________________________________
 /*
@@ -104,6 +104,14 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 		};
 
 	}; // End $scope.addTimeTable
+
+	// function gettingResponseHandler (resp) {
+	// 	 if (resp.list[0][0] == "record_id" && resp.list[0][1] == "null") {
+	// 	  $scope.noData = "Немає записів";
+	// 	 } else {
+	// 	  $scope.agendaItems = resp.list.data;
+	// 	}	
+	// };
 
   $scope.activateEntity = function (agendaItems) {
     // angular.element(document.querySelector('#deleteModal')).modal();

@@ -40,6 +40,7 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
 
           function getEntitiesWithDependencies() {
             var id = $stateParams.id;
+
             //using different methods for dependencies of different entities
             switch (scope.thisEntity) {
               case 'test':
@@ -60,25 +61,26 @@ app.directive('getEntitiesDrct', ['entitiesSrvc', '$stateParams', function(entit
                   gettingResponseHandler (resp);
                 });
                 break;
-              case 'timeTable':
-                entitiesSrvc.getEntitiesForEntity(
-                  scope.thisEntity, scope.currentEntity.by.parentEntity, id
-                  )
-                .then(function (respTimeTable) {
-                  entitiesSrvc.getEntities("group").then(function (respGroups) {
-                      var groupsForTimeTable = respGroups.list;
-                      for (var g=0; g<groupsForTimeTable.length; g++) {
-                        for (var i=0; i<respTimeTable.data.length; i++) {
-                          if (respTimeTable.data[i].group_id == groupsForTimeTable[g].group_id) {
-                            respTimeTable.data[i].group_name = groupsForTimeTable[g].group_name;
-                          };
-                        };
-                      };
-                      gettingResponseHandler (respTimeTable);
-                    });
-                });
-                break;
+              // case 'timeTable':
+              //   entitiesSrvc.getEntitiesForEntity(
+              //     scope.thisEntity, scope.currentEntity.by.parentEntity, id
+              //     )
+              //   .then(function (respTimeTable) {
+              //     entitiesSrvc.getEntities("group").then(function (respGroups) {
+              //         var groupsForTimeTable = respGroups.list;
+              //         for (var g=0; g<groupsForTimeTable.length; g++) {
+              //           for (var i=0; i<respTimeTable.data.length; i++) {
+              //             if (respTimeTable.data[i].group_id == groupsForTimeTable[g].group_id) {
+              //               respTimeTable.data[i].group_name = groupsForTimeTable[g].group_name;
+              //             };
+              //           };
+              //         };
+              //         gettingResponseHandler (respTimeTable);
+              //       });
+              //   });
+              //   break;
               case 'result':
+              if (!id) { id = localStorage.userId };
                 entitiesSrvc.getRecordsByStudent(scope.thisEntity, id)
                 .then(function (resp) {
                   gettingResponseHandler (resp);

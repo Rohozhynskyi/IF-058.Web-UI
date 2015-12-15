@@ -1,13 +1,35 @@
-testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userSrvc', '$stateParams', '$state', '$q', '$timeout',
-    function ($scope, $rootScope, userSrvc, $stateParams, $state, $q, $timeout) {
+testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userSrvc', '$stateParams', '$state', '$q', '$timeout', '$filter',
+    function ($scope, $rootScope, userSrvc, $stateParams, $state, $q, $timeout, $filter) {
         $scope.beginTest = function () {
-            if (JSON.parse(localStorage.getItem('finalGrade'))){
-                $scope.finalGrade = (JSON.parse(localStorage.getItem('finalGrade'))).toFixed(2)    
+            var data = '';
+            var url = 'TestPlayer/getTimeStamp';
+            var startTime
+            var startTestDate
+            var startTestTime
+
+            userSrvc.getInfoForStudent(url, data).then(function (resp) {
+                //console.log('getTimeStamp', resp.data)
+                startTime = resp.data.unix_timestamp;
+                var currentTime = new Date(startTime * 1000)
+                startTestDate = $filter('date')(currentTime, 'yyyy-MM-dd')
+                startTestTime = $filter('date')(currentTime, 'hh:mm:ss')
+
+
+                console.log('start1', startTime)
+                //console.log('testData.startTime',testData.startTime)
+            });
+
+
+            console.log('start2', startTime)
+
+            if (JSON.parse(localStorage.getItem('finalGrade'))) {
+                $scope.finalGrade = (JSON.parse(localStorage.getItem('finalGrade'))).toFixed(2)
             }
             var url = 'testPlayer/getData';
             var data = '';
             userSrvc.getInfoForStudent(url, data).then(function (resp) {
                 var savedTestData = resp.data;
+
                 var questionArray = savedTestData.questionList;
                 $scope.questionList = questionArray;
 
@@ -20,21 +42,22 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             var timeStart = new Date(savedTestData.startTime * 1000);
                             var remeinedTime = (timeStart - timeDifference);
                             $scope.counter = (remeinedTime / 1000);
-                            $scope.mytimeout = $timeout($scope.onTimeout, 1000);
-                            if ($scope.counter === 0) {
-                                timeIsOut();
-                            }
+                            console.log($scope.counter, '$scope.counter');
                         })
                     };
-                    $scope.mytimeout = $timeout($scope.onTimeout, 1000);
                 }
 
                 timer();
-                function timeIsOut() {
-                    $scope.counter = 0;
-                    $timeout.cancel($scope.mytimeout);
-                    //$state.go('user.testResult');
-                }
+
+                $scope.leftTime = function () {
+                    if ($scope.counter === 0) {
+                        $scope.finishTest()
+                    }
+                    $scope.counter--;
+                    mytimeout = $timeout($scope.leftTime, 1000);
+                };
+                var mytimeout = $timeout($scope.leftTime, 1000);
+
 
                 var userId = localStorage.userId;
                 var testId = localStorage.testId;
@@ -43,6 +66,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 $scope.checklistValue = [];
                 var userAnswers = [];
                 answerObj.answer_ids = [];
+                var userAnswersIdsArr = [];
 
                 var quest;
                 $scope.choosenQuestion = function (quest, index) {
@@ -64,6 +88,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 var levelsArr = [];
 
                 function nextQuestion(data) {
+                    $scope.onTimeout();
                     var questionUrl = 'question/getRecords/';
                     var answerUrl = 'SAnswer/getAnswersByQuestion/';
                     $q.all([
@@ -71,7 +96,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                         userSrvc.getInfoForStudent(answerUrl, data)
                     ])
                         .then(function (resp) {
-                            $scope.question = resp[0].data[0].question_text;
+                            $scope.question = resp[0].data[0];
                             $scope.answers = resp[1].data;
                             $scope.type = resp[0].data[0].type == '1' ? 'radio' : 'checkbox';
                             if (localStorage.getItem('levelsArr')) {
@@ -80,13 +105,10 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
 
                             levelsArr.push({id: resp[0].data[0].question_id, level: resp[0].data[0].level});
                             var newLevelsArr = []
-                            for (var i = 0; i< levelsArr.length; i++){
-
-                                for (var j = 0; j<savedTestData.rate.length; j++){
-
-                                    if (levelsArr[i].level == savedTestData.rate[j].level){
+                            for (var i = 0; i < levelsArr.length; i++) {
+                                for (var j = 0; j < savedTestData.rate.length; j++) {
+                                    if (levelsArr[i].level == savedTestData.rate[j].level) {
                                         console.log('id', resp[0].data[0].question_id[i])
-
                                         levelsArr[i].rate = savedTestData.rate[j].rate
                                     }
                                 }
@@ -95,8 +117,6 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             localStorage.setItem('levelsArr', JSON.stringify(levelsArr));
                             $scope.levelsArr = levelsArr;
                             console.log('levelsArr', $scope.levelsArr);
-
-
                         })
                 }
 
@@ -104,7 +124,8 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 if (!localStorage.getItem('userAnswers')) {
                     localStorage.setItem('userAnswers', JSON.stringify(userAnswers))
                 }
-                $scope.submitQuestion = function (radioValue) {
+                $scope.submitQuestion = function (radioValue, index) {
+                    //$scope.checked = index;
                     userAnswers = JSON.parse(localStorage.getItem('userAnswers'));
                     answerObj.question_id = $scope.quest;
                     if ($scope.type === 'radio') {
@@ -120,7 +141,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
 
                     var quesArrLen = questionArray.length;
                     var nextState = +$stateParams.id + 1;
-                    if(nextState <= quesArrLen) {
+                    if (nextState <= quesArrLen) {
                         $state.go('user.testPlayer', {id: nextState});
                     } else {
                         $state.go('user.testPlayer', {id: 1});
@@ -133,9 +154,18 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     var data = localStorage.getItem('userAnswers');
                     userSrvc.postInfoForStudent(url, data).then(function (resp) {
                         $scope.testResult = resp.data;
-                        for (var i = 0; i < $scope.testResult.length; i++) {
+                        countResultArr = $scope.testResult.map(function(key, i){
                             for (var j = 0; j < $scope.levelsArr.length; j++) {
-                                console.log('$scope.levelsArr[j].id', $scope.levelsArr[j].id)
+                                if ($scope.testResult[i].question_id == $scope.levelsArr[j].id) {
+                                    $scope.testResult[i].level = $scope.levelsArr[j].level;
+                                    $scope.testResult[i].rate = $scope.levelsArr[j].rate;
+                                }
+                            }
+                            return $scope.testResult[i];
+                        });
+                        /*for (var i = 0; i < $scope.testResult.length; i++) {
+                            for (var j = 0; j < $scope.levelsArr.length; j++) {
+                                console.log('$scope.levelsArr[j].id', $scope.levelsArr[j].id);
                                 console.log($scope.testResult[i].question_id == $scope.levelsArr[j].id, 'if');
                                 if ($scope.testResult[i].question_id == $scope.levelsArr[j].id) {
                                     countResultArr.push({
@@ -144,32 +174,50 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                                         'rate': $scope.levelsArr[j].rate,
                                         'true': $scope.testResult[i].true
                                     })
+                                    userAnswersIdsArr.push($scope.testResult[i].question_id);
                                 }
                             }
-                        }
-                        timeIsOut();
-                        console.log('countResultArr', countResultArr)
-
-                        getStudentGrade ()
+                        }*/
+                        console.log('countResultArr##########################', countResultArr);
+                        getStudentGrade()
                     });
-                    
-                }
-                 function getStudentGrade () {
-                            var studentRightAns = 0
-                            var maxAvilable = 0
-                            //var studentGradeArr = []
-                            for (var i = 0; i<countResultArr.length; i++){
-                                studentRightAns += ((+countResultArr[i].level)*(+countResultArr[i].rate)*(+countResultArr[i].true))
-                            }
-                            maxAvilable = savedTestData.maxAvilable
 
-                            var finalGrade = studentRightAns/maxAvilable*100
-                            localStorage.setItem('finalGrade', JSON.stringify(finalGrade));//потім можна зробити вьюху результата як директиву
-                            console.log('finalGrade', $scope.finalGrade)
-                            localStorage.removeItem('levelsArr')
-                            localStorage.removeItem('userAnswers')
-                            $state.go('user.finalGrade');
-                        }
+                }
+                function getStudentGrade() {
+                    var studentRightAns = 0
+                    var maxAvilable = 0
+                    //var studentGradeArr = []
+                    for (var i = 0; i < countResultArr.length; i++) {
+                        studentRightAns += ((+countResultArr[i].level) * (+countResultArr[i].rate) * (+countResultArr[i].true))
+                    }
+                    maxAvilable = savedTestData.maxAvilable
+
+                    var finalGrade = studentRightAns / maxAvilable * 100
+                    console.log('studentRightAns', studentRightAns)
+                    console.log('maxAvilable', maxAvilable)
+                    localStorage.setItem('finalGrade', JSON.stringify(finalGrade));//потім можна зробити вьюху результата як директиву
+
+                    console.log('countResultArr.id.join', localStorage.getItem('userAnswers'))
+                    console.log('$scope.questionList', userAnswersIdsArr.join('\\/'))
+                    var resultStorage = {
+                        "student_id": localStorage.userId,
+                        "test_id": localStorage.testId,
+                        "session_date": startTestDate,
+                        "start_time": startTestTime,
+                        "end_time": "10:30:00",//поміняти коли буде нормальний таймер
+                        "result": finalGrade,
+                        "questions": $scope.questionList.join('\\/'),
+                        "true_answers": '3\/2\/5\/8',
+                        "answers": userAnswersIdsArr.join('\\/')
+                    }
+                    var url = 'result/insertData';
+                    var data = resultStorage;
+                    userSrvc.postInfoForStudent(url, data)
+
+                    localStorage.removeItem('levelsArr')
+                    localStorage.removeItem('userAnswers')
+                    $state.go('user.finalGrade');
+                }
             });
         };
         $scope.beginTest();

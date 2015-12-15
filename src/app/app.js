@@ -191,7 +191,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
     state('user.results', {
       url: '/results',
       templateUrl: 'app/views/userResults.html',
-      controller: 'userResultListCtrl',
+      // controller: 'userResultListCtrl',
       // HERE CHANGE SOMETHING
       controller: 'entitiesCtrl'
     }).
