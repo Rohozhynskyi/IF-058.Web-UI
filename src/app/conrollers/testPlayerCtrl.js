@@ -106,12 +106,9 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             levelsArr.push({id: resp[0].data[0].question_id, level: resp[0].data[0].level});
                             var newLevelsArr = []
                             for (var i = 0; i < levelsArr.length; i++) {
-
                                 for (var j = 0; j < savedTestData.rate.length; j++) {
-
                                     if (levelsArr[i].level == savedTestData.rate[j].level) {
                                         console.log('id', resp[0].data[0].question_id[i])
-
                                         levelsArr[i].rate = savedTestData.rate[j].rate
                                     }
                                 }
@@ -120,8 +117,6 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             localStorage.setItem('levelsArr', JSON.stringify(levelsArr));
                             $scope.levelsArr = levelsArr;
                             console.log('levelsArr', $scope.levelsArr);
-
-
                         })
                 }
 
@@ -151,7 +146,6 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     } else {
                         $state.go('user.testPlayer', {id: 1});
                     }
-
                 };
 
                 var countResultArr = []
@@ -160,7 +154,16 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     var data = localStorage.getItem('userAnswers');
                     userSrvc.postInfoForStudent(url, data).then(function (resp) {
                         $scope.testResult = resp.data;
-                        for (var i = 0; i < $scope.testResult.length; i++) {
+                        countResultArr = $scope.testResult.map(function(key, i){
+                            for (var j = 0; j < $scope.levelsArr.length; j++) {
+                                if ($scope.testResult[i].question_id == $scope.levelsArr[j].id) {
+                                    $scope.testResult[i].level = $scope.levelsArr[j].level;
+                                    $scope.testResult[i].rate = $scope.levelsArr[j].rate;
+                                }
+                            }
+                            return $scope.testResult[i];
+                        });
+                        /*for (var i = 0; i < $scope.testResult.length; i++) {
                             for (var j = 0; j < $scope.levelsArr.length; j++) {
                                 console.log('$scope.levelsArr[j].id', $scope.levelsArr[j].id);
                                 console.log($scope.testResult[i].question_id == $scope.levelsArr[j].id, 'if');
@@ -174,9 +177,8 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                                     userAnswersIdsArr.push($scope.testResult[i].question_id);
                                 }
                             }
-                        }
-                        console.log('countResultArr', countResultArr)
-
+                        }*/
+                        console.log('countResultArr##########################', countResultArr);
                         getStudentGrade()
                     });
 
