@@ -23,6 +23,7 @@ app.directive('imageLoad', ['$timeout', '$interval', function ($timeout, $interv
 				}
 			});
 		}
+
 	}
 
 
