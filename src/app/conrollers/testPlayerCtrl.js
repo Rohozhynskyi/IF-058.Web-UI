@@ -161,6 +161,7 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                                     $scope.testResult[i].rate = $scope.levelsArr[j].rate;
                                 }
                             }
+                            userAnswersIdsArr.push($scope.testResult[i].question_id);
                             return $scope.testResult[i];
                         });
                         /*for (var i = 0; i < $scope.testResult.length; i++) {
@@ -186,9 +187,12 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                 function getStudentGrade() {
                     var studentRightAns = 0
                     var maxAvilable = 0
+                    var userTrueAnswersArr = []
+
                     //var studentGradeArr = []
                     for (var i = 0; i < countResultArr.length; i++) {
                         studentRightAns += ((+countResultArr[i].level) * (+countResultArr[i].rate) * (+countResultArr[i].true))
+                        userTrueAnswersArr.push(countResultArr[i].true)
                     }
                     maxAvilable = savedTestData.maxAvilable
 
@@ -196,20 +200,18 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     console.log('studentRightAns', studentRightAns)
                     console.log('maxAvilable', maxAvilable)
                     localStorage.setItem('finalGrade', JSON.stringify(finalGrade));//потім можна зробити вьюху результата як директиву
-
-                    console.log('countResultArr.id.join', localStorage.getItem('userAnswers'))
-                    console.log('$scope.questionList', userAnswersIdsArr.join('\\/'))
                     var resultStorage = {
                         "student_id": localStorage.userId,
                         "test_id": localStorage.testId,
                         "session_date": startTestDate,
                         "start_time": startTestTime,
-                        "end_time": "10:30:00",//поміняти коли буде нормальний таймер
+                        "end_time": $filter('formatTimer')($scope.counter),
                         "result": finalGrade,
                         "questions": $scope.questionList.join('\\/'),
-                        "true_answers": '3\/2\/5\/8',
+                        "true_answers": userTrueAnswersArr.join('\\/'),
                         "answers": userAnswersIdsArr.join('\\/')
                     }
+                    console.log('resultStorage', resultStorage)
                     var url = 'result/insertData';
                     var data = resultStorage;
                     userSrvc.postInfoForStudent(url, data)
