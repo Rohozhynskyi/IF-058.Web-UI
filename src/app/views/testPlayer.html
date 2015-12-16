@@ -16,7 +16,7 @@
 <div class="questionBar">
     <div class="question clearfix well">
         <p ng-bind-html="question.question_text | unsafe"></p>
-        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="img" ng-show="question.attachment != 'added'"/>
+        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="" ng-show="question.attachment != 'added'"/>
     </div>
     <form name="ansForm" class="answer clearfix well">
         <div ng-repeat='answer in answers'>
