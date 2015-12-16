@@ -16,7 +16,7 @@
 <div class="questionBar">
     <div class="question clearfix well">
         <p ng-bind-html="question.question_text | unsafe"></p>
-        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="" ng-show="question.attachment != 'added'" alt=""/>
+        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="img" ng-show="question.attachment != 'added'"/>
     </div>
     <form name="ansForm" class="answer clearfix well">
         <div ng-repeat='answer in answers'>
@@ -25,13 +25,13 @@
                         ng-value="{{answer.answer_id}}"/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
                 <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
-                     ng-show="answer.attachment != 'added'" alt=""/>
+                     ng-show="answer.attachment != 'added'" alt="img"/>
             </label>
             <label ng-show="type == 'checkbox'">
                 <input type='checkbox' checklist-model="checklistValue" checklist-value="answer.answer_id" ng-click='clicked()'/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
                 <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
-                     ng-show="answer.attachment != 'added'" alt=""/>
+                     ng-show="answer.attachment != 'added'" alt="img"/>
             </label>
         </div>
     </form>
