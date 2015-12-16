@@ -192,7 +192,8 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                     }
                     maxAvilable = savedTestData.maxAvilable
 
-                    var finalGrade = studentRightAns / maxAvilable * 100
+                    var finalGrade = studentRightAns / maxAvilable * 100;
+                    console.log(finalGrade, 'finalGradefinalGradefinalGrade');
                     console.log('studentRightAns', studentRightAns)
                     console.log('maxAvilable', maxAvilable)
                     localStorage.setItem('finalGrade', JSON.stringify(finalGrade));//потім можна зробити вьюху результата як директиву
