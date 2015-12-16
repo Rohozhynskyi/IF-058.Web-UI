@@ -119,25 +119,53 @@ testPlayerApp.controller('userQuestionListCtrl', ['$scope', '$rootScope', 'userS
                             console.log('levelsArr', $scope.levelsArr);
                         })
                 }
-
+               /* function removeDuplicates (arr) {
+                        var input = arr;
+                        var hashObject = new Object();
+                        for (var i = input.length - 1; i >= 0; i--) {
+                            var currentItem = input[i]; 
+                            if (hashObject[currentItem] == true) {
+                                input.splice(i, 1);
+                            }
+                            hashObject[currentItem] = true;
+                        }
+                        return input;
+                    }*/
 
                 if (!localStorage.getItem('userAnswers')) {
                     localStorage.setItem('userAnswers', JSON.stringify(userAnswers))
                 }
                 $scope.submitQuestion = function (radioValue, index) {
                     //$scope.checked = index;
+                    
                     userAnswers = JSON.parse(localStorage.getItem('userAnswers'));
+
                     answerObj.question_id = $scope.quest;
+                
                     if ($scope.type === 'radio') {
                         answerObj.answer_ids.push(radioValue)
                     } else {
+
                         answerObj.answer_ids = $scope.checklistValue
+                        
+
+
                     }
+
                     userAnswers.push(answerObj);
-                    /*$scope.allAnswers = userAnswers*/
-                    console.log('$scope.allAnswers', $scope.allAnswers);
+                    console.log('userAnswers1', userAnswers)
+                        var arr = {};
+                        for ( var i=0; i < userAnswers.length; i++ ){
+                            arr[userAnswers[i]['question_id']] = userAnswers[i];
+                        }
+                            
+                        userAnswers = [];
+                        for ( var key in arr ){
+                            userAnswers.push(arr[key]);
+                        }
+                        console.log('userAnswers2', userAnswers)
+                         
                     localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-                    console.log('userAnswers', userAnswers);
 
                     var quesArrLen = questionArray.length;
                     var nextState = +$stateParams.id + 1;
