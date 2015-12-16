@@ -4,30 +4,9 @@
 	margin: $baseline;
 	padding: 7px;
 	border-bottom: 1px solid $clr-light-bg;
-	@include scale(1,1);
-	@include transition(all, .4s);
 
 	&:hover {
-		margin-bottom: ($baseline + 1px);
-		@include round(5px);
-		@include scale(1.02, 1.02);
-		@include drop-shadow(1px, 0px, 15px, 0, .15);
-		background-color: $clr-normal-blue;
-		border-bottom: none;
-
-		.row > .col > hgroup {
-			color: $WHITE;
-		}
-
-		.row > .col > span.detail {
-			color: $WHITE;
-		}
-		.row > .col > hgroup > h3 {
-			color: $WHITE;
-		}
-		.row > .col > hgroup > h4 {
-			color: $WHITE;
-		}
+		background-color: #f5f5f5;
 	}
 }
 
@@ -56,7 +35,7 @@
 }
 
 .students-bootstrap > .ng-scope > .row > .col.col-img {
-	padding-top: 10px;
+	// padding-top: 10px;
 	text-align: center;
 	font-family: $txt-light;
 	color: $clr-light-text;
@@ -83,7 +62,7 @@
 .students-bootstrap > .ng-scope > .row > .col > img {
 	@include round(50%);
 	// move visuly
-	margin-left: 15px;
+	// margin-left: 15px;
 }
 
 .students-bootstrap > .ng-scope > .row > .col > span.detail {
@@ -106,4 +85,21 @@
 	font-size: $body-font-size * 1.7;
 	line-height: $baseline * 1.5;
 	color: $clr-normal-blue;
+}
+
+// Progress Bar styles
+
+.press {
+	width: 100%;
+	height: 10px;
+	margin-top: 5px;
+	margin-bottom: 0;
+	@include transition(opacity, .3s);
+	opacity: 0;
+
+	.press-bar {
+		font-size: 8px;
+		line-height: 10px;
+	}
+
 }
