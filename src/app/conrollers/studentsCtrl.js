@@ -16,5 +16,4 @@ app.controller('studentsCtrl', ['$scope', '$stateParams', 'entityObj', 'entities
 	$scope.idOfParent = $stateParams.id;
 	$scope.imgStr = 'img/def-stud.jpg';
 
-
 }]);
