@@ -56,14 +56,10 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 			$scope.showingAdd = true;
 		} else {
 			$scope.showingAdd = false;
-			// $scope.resetEntity();
+			 $scope.resetEntity();
 		};
 	};
-/*
-	$scope.resetEntity = function () {
-		$scope.newEntity = {};
-	};
-*/
+
       $scope.addNewTimeTable = function (recordData) {
 
 		// Creating middle object
@@ -73,8 +69,6 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 			group_id: recordData.group_id,
 			event_date: $scope.date
 		};
-		// var jsonData = JSON.stringify(recordData);
-		// var newRecord = jsonData;
 
 		// Gives data to a service
 		entitiesSrvc.createEntity($scope.thisEntity, recordData)
@@ -89,11 +83,11 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 				okAddResponseHandler (resp, recordData);				
 
 			} else if (resp.data.response == 'error 2300') {
-				console.log('Виникла наступна помилка: ' + resp.data.response + '. Такі дані вже наявні у базі даних.');
+				console.log('Помилка: ' + resp.data.response + '. Такі дані вже наявні у базі даних.');
 			} else if (resp.data.response === 'Failed to validate array') {
-				console.log('Виникла наступна помилка: ' + resp.data.response + '. Будь-ласка, введіть унікальні дані.');
+				console.log('Помилка: ' + resp.data.response + '. Будь-ласка, введіть унікальні дані.');
 			} else {
-				console.log('Виникла наступна помилка: ' + resp.data.response + '. Будь-ласка, зверніться до системного адміністратора');
+				console.log('Помилка: ' + resp.data.response + '. Будь-ласка, зверніться до системного адміністратора');
 			}
 		}// END addRespHandler
 
@@ -104,14 +98,6 @@ app.controller('timeTableCtrl', ['$scope', '$stateParams', 'entityObj', 'entitie
 		};
 
 	}; // End $scope.addTimeTable
-
-	// function gettingResponseHandler (resp) {
-	// 	 if (resp.list[0][0] == "record_id" && resp.list[0][1] == "null") {
-	// 	  $scope.noData = "Немає записів";
-	// 	 } else {
-	// 	  $scope.agendaItems = resp.list.data;
-	// 	}	
-	// };
 
   $scope.activateEntity = function (agendaItems) {
     // angular.element(document.querySelector('#deleteModal')).modal();
