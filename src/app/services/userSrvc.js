@@ -1,7 +1,7 @@
 testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, baseUrl, $q) {
   var testData = {
     //counter: '',
-    //startTime: '',
+    startTime: '',
     questionList: '',
     timeForTest: '',
     rate: [],
@@ -73,11 +73,21 @@ testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, ba
      //questQty = questionList.length
      console.log('questQty', questQty)
      console.log('testData', testData)
+     var data = '';
+      var url = 'TestPlayer/getTimeStamp';
+      getInfoHelper(url, data).then(function (resp) {
+        testData.startTime = resp.data.unix_timestamp
+    });
+      console.log('testDataService', testData)
 
      return testData
      //return /*$scope.questionsQuantity =*/ questionList.length;
     })
+
+    
   },
+
+
 
 
     getInfoForStudent: function (url, data, result) {
@@ -98,6 +108,12 @@ testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, ba
           .then(fulfilled, rejected);
       }
     },
+
+    getTimeStamp: function(){
+      var data = '';
+      var url = 'TestPlayer/getTimeStamp';
+      return getInfoHelper(url, data).then(fulfilled, rejected)
+    },
     getTestInfo: function(userId, testId) {
      return $http.get(baseUrl + 'Log/startTest' + '/' + userId + '/' + testId)
        .then(fulfilled, rejected);
@@ -106,8 +122,52 @@ testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, ba
       return $http.post(baseUrl + url, postData)
         .then(fulfilled, rejected);
 
-    }
+    },
+    getSavedData: function(){
+    var url = 'testPlayer/getData';
+    var data = '';
+    return getInfoHelper(url, data)
+    .then(fulfilled, rejected);
+},
+
+    timer: function(startTime, timeForTest) {
+                    var data = '';
+                    var url = 'TestPlayer/getTimeStamp';
+                        return getInfoHelper(url, data).then(function (resp) {
+                            var timeDifference = new Date((resp.data.unix_timestamp - timeForTest * 60) * 1000);
+                            var timeStart = new Date(startTime * 1000);
+                            console.log('startTime', startTime)
+                            console.log('timeDifference', timeDifference)
+                            var remeinedTime = (timeStart - timeDifference);
+                            counter = (remeinedTime / 1000);
+                            console.log('counterService', counter)
+                            return counter
+                            //console.log('$scope.counter1', $scope.counter);
+                        })
+                },
+                finishTest: function (){
+                  var url = 'SAnswer/checkAnswers';
+                    var data = localStorage.getItem('userAnswers');
+                    console.log('datasdasdasdasd', data)
+                    return postInfoHelper(url, data)
+                    .then(fulfilled, rejected);
+                },
+                nextQuestion: function(data){
+                  var questionUrl = 'question/getRecords/';
+                    var answerUrl = 'SAnswer/getAnswersByQuestion/';
+                    return $q.all([
+                        getInfoHelper(questionUrl, data),
+                        getInfoHelper(answerUrl, data)
+                    ]).then(fulfilled, rejected);
+                },
+                endTime: function(){
+                  var url = 'TestPlayer/getTimeStamp';
+                  var data = ''
+                  return getInfoHelper(url, data).then(fulfilled, rejected)
+                }
   }
+
+
 
   function defineAttempts (resp, id) {
     var repeatedTest_id = {

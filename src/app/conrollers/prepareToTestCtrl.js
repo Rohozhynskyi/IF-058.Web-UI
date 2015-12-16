@@ -13,7 +13,6 @@ testPlayerApp.controller('prepareToTestCtrl', ['$scope', '$rootScope', 'userSrvc
     angular.element(document.querySelector('#informModal')).modal();
   };
   $scope.getRecordsByStudent = function(getId){
-    // console.log('check',userSrvc.checkStudent(id))
     userSrvc.checkStudent(id).then(function(resp){
       $scope.questionsQuantity = resp.questionList.length
       $scope.testData = resp
@@ -21,6 +20,7 @@ testPlayerApp.controller('prepareToTestCtrl', ['$scope', '$rootScope', 'userSrvc
     })
   } 
   $scope.getRecordsByStudent(getId);
+  
   $scope.startTest = function () {
     function saveData (){
       var url = 'testPlayer/saveData';
@@ -28,8 +28,6 @@ testPlayerApp.controller('prepareToTestCtrl', ['$scope', '$rootScope', 'userSrvc
       userSrvc.postInfoForStudent(url, data)
     }
     saveData()
-
-
   }
 
 
