@@ -3,32 +3,33 @@
         <span class="col-md-3 pull-right">Час на роздуми: {{counter | formatTimer}}</span>
     </div>
     <div class="panel-body">
-        <button class="btn btn-primary pull-left" ng-click = 'finishTest()'>Завершити тестування</button>
+        <button class="btn btn-primary pull-left" ng-click='finishTest()'>Завершити тестування</button>
         <div class="pull-right text-center question-number">
             <a ui-sref="user.testPlayer({id:$index + 1})"
                ng-click='firstQuestion(questNumber, $index)'
                ng-repeat='questNumber in questionList'
                ng-class="{selectedItem: $index == selected}">{{$index + 1}}</a>
-            <!--checkedItem: ansForm.$pristine-->
         </div>
     </div>
 </div>
 <div class="questionBar">
     <div class="question clearfix well">
         <p ng-bind-html="question.question_text | unsafe"></p>
-        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt="" ng-show="question.attachment != 'added'"/>
+        <img class="picture new-picture navbar-btn" ng-src="{{question.attachment}}" alt=""
+             ng-show="question.attachment != 'added'"/>
     </div>
     <form name="ansForm" class="answer clearfix well">
         <div ng-repeat='answer in answers'>
             <label ng-show="type == 'radio'">
-                <input  type='radio' name="answer" ng-model="$parent.radioValue"
-                        ng-value="{{answer.answer_id}}"/>
+                <input type='radio' name="answer" ng-model="$parent.radioValue"
+                       ng-value="{{answer.answer_id}}"/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
                 <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
                      ng-show="answer.attachment != 'added'" alt="img"/>
             </label>
             <label ng-show="type == 'checkbox'">
-                <input type='checkbox' checklist-model="checklistValue" checklist-value="answer.answer_id" ng-click='clicked()'/>
+                <input type='checkbox' checklist-model="checklistValue" checklist-value="answer.answer_id"
+                       ng-click='clicked()'/>
                 <span ng-bind-html='answer.answer_text | unsafe'></span>
                 <img class="picture new-picture navbar-btn" ng-src="{{answer.attachment}}"
                      ng-show="answer.attachment != 'added'" alt="img"/>
@@ -37,6 +38,7 @@
     </form>
     <div class="submitQuestion">
         {{select.answers}}
-        <input ng-disabled="ansForm.$pristine" class="btn btn-primary" type="button" value="Підтвердити" ng-click="submitQuestion(radioValue, index)"/>
+        <input ng-disabled="ansForm.$pristine" class="btn btn-primary" type="button" value="Підтвердити"
+               ng-click="submitQuestion(radioValue, index)"/>
     </div>
 </div>

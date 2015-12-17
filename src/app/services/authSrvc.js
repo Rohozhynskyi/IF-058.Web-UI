@@ -1,21 +1,20 @@
-app.factory('authSrvc', ['$http', '$state', 'baseUrl', function($http, $state, baseUrl){
-    var toAuth = function() {
+app.factory('authSrvc', ['$http', '$state', 'baseUrl', function ($http, $state, baseUrl) {
+    var toAuth = function () {
         $state.go('login');
     };
     return {
-        enterLogin : function (data) {
-        return $http.post(baseUrl + 'login/index', data)
-            .then(fulfilled, rejected);
-            console.log('adfsadsad')
+        enterLogin: function (data) {
+            return $http.post(baseUrl + 'login/index', data)
+                .then(fulfilled, rejected);
         },
 
-        logOut: function(){
+        logOut: function () {
             return $http.get(baseUrl + 'login/logout')
                 .then(
-                function() {
+                function () {
                     return toAuth();
                 },
-                function() {
+                function () {
                     return toAuth();
                 }
             );
@@ -23,9 +22,8 @@ app.factory('authSrvc', ['$http', '$state', 'baseUrl', function($http, $state, b
     };
     function fulfilled(response) {
         return response;
-    };
-
+    }
     function rejected(error) {
         return error;
-    };
+    }
 }]);
