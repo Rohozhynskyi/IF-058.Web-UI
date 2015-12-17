@@ -1,4 +1,4 @@
-app.controller('loginCtrl', ['$scope', '$state', 'authSrvc', function($scope, $state, authSrvc){
+app.controller('loginCtrl', ['$scope', '$state', 'authSrvc', function ($scope, $state, authSrvc) {
     $scope.getError = function (error) {
         if (angular.isDefined(error)) {
             if (error.required) {
@@ -9,13 +9,13 @@ app.controller('loginCtrl', ['$scope', '$state', 'authSrvc', function($scope, $s
         }
     };
 
-    $scope.enter = function(){
+    $scope.enter = function () {
         $scope.wrongCredentials = false;
         var user = {
             username: $scope.username,
             password: $scope.password
         };
-        authSrvc.enterLogin(user).then(function(response){
+        authSrvc.enterLogin(user).then(function (response) {
             if (response.data.response === "ok" && response.data.roles[1] === 'admin') {
                 localStorage.adminName = response.data.username;
                 localStorage.adminId = response.data.id;
@@ -30,7 +30,7 @@ app.controller('loginCtrl', ['$scope', '$state', 'authSrvc', function($scope, $s
         });
     };
     $scope.detectUser = localStorage.adminName || localStorage.userName;
-    $scope.exit = function() {
+    $scope.exit = function () {
         localStorage.clear();
         authSrvc.logOut().then();
     };

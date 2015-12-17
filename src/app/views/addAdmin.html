@@ -1,89 +1,111 @@
 <div entities-drct="AdminUser">
-  <div class="wrapper panel-success no-border">
-    <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Адміністратори </div>
-    <div class="col-md-12">
-      <div>
-        <br/>
-        <!-- The button and form to add Entity -->
-        <show-add-form-button-drct></show-add-form-button-drct>
-        <br/><br/><br/>
-        <div class="well" ng-show="showingAdd">
-          <div class=" row">
-            <form name="addForm" class="form-inline" role='form' novalidate>
-              <div class="col-md-3">
-                <label for="addLogin" class="label label-success">Логін</label>
-                <input class="form-control input-sm width-max navbar-btn" placeholder="Введіть логін" type='text' ng-model="newEntity.username" ng-minlength="4" required id="addLogin">
-              </div>
-              <div class="col-md-3">
-                <label for="addEmail" class="label label-success">Електронна пошта</label>
-                <input class="form-control input-sm width-max navbar-btn" placeholder="Введіть елетронну пошту" type='email' ng-model="newEntity.email" required id="addEmail">
-              </div>
-              <div class="col-md-2">
-                <label for="addPassword" class="label label-success">Пароль</label>
-                <input class="form-control input-sm width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="newEntity.password" ng-minlength="4" required id="addPassword">
-              </div>
-              <div class="col-md-2">
-                <label for="addConfirmPassword" class="label label-success">Підтвердження пароля</label>
-                <input class="form-control input-sm width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="newEntity.password_confirm" ng-minlength="4"  required compare-to="newEntity.password" id="addConfirmPassword">
-              </div>
-              <div class="col-md-2">
-                <br>
-                <button type="submit" class="btn btn-success pull-right width-max navbar-btn" ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати</button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div ng-show="!entities">{{noData}}</div>
-        <!-- The table for list of Entities -->
-        <div class="table-responsive">
-          <table ng-show="entities" class="table table-hover .table-condensed">
-            <thead>
-            <tr>
-              <th>№</th>
-              <th class="col-md-2 clickable" ng-click="sortType = 'name'; sortReverse = !sortReverse">Логін
-                <i ng-show="sortType == 'name' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
-                <i ng-show="sortType == 'name' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
-              </th>
-              <th class="col-md-2 clickable" ng-click="sortType = 'email'; sortReverse = !sortReverse">Електронна пошта
-                <i ng-show="sortType == 'email' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
-                <i ng-show="sortType == 'email' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
-              </th>
-              <th class="col-md-2"></th>
-              <th class="col-md-2"></th>
-              <th class="col-md-2 usCenter">Дії</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-if="entity != editingEntity" ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
-              <!-- read-only cells -->
-              <td>{{$index + 1}}</td>
-              <td class="col-md-3">{{entity.username}}</td>
-              <td class="col-md-3">{{entity.email}}</td>
-              <td class="col-md-2"></td>
-              <td class="col-md-2"></td>
-              <td class="col-md-2 usCenter">
-                <actions-buttons-drct></actions-buttons-drct>
-              </td>
-            </tr>
-            <tr ng-if="entity == editingEntity" ng-repeat-end="">
-              <td>{{$index + 1}}</td>
-              <td><input class="form-control input-sm width-max navbar-btn" type='text' ng-model="editedEntity.new_username" ng-minlength="4"></td>
-              <td><input class="form-control input-sm width-max navbar-btn" type='email' ng-model="editedEntity.new_email"></td>
-              <td><input class="form-control input-sm width-max navbar-btn" placeholder="Введіть пароль" type='password' ng-model="editedEntity.new_password" ng-minlength="4"></td>
-              <td><input class="form-control input-sm width-max navbar-btn" placeholder="Повторіть пароль" type='password' ng-model="editedEntity.new_password_confirm" ng-minlength="4"></td>
-              <td class="usCenter">
-                <editing-buttons-drct></editing-buttons-drct>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- The modal to confirm removing of Entity -->
-        <deleting-modal-drct></deleting-modal-drct>
-        <!-- The modal to inform about error from server -->
-        <inform-modal-drct></inform-modal-drct>
+    <div class="wrapper panel panel-success no-border">
+        <div class="panel-heading"><span class="glyphicon glyphicon-bookmark"></span> Адміністратори</div>
+        <div class="col-md-12">
+            <div>
+                <br/>
+                <!-- The button and form to add Entity -->
+                <show-add-form-button-drct></show-add-form-button-drct>
+                <br/><br/><br/>
+                <div class="well" ng-show="showingAdd">
+                    <div class=" row">
+                        <form name="addForm" class="form-inline" role='form' novalidate>
+                            <div class="col-md-3">
+                                <label for="addLogin" class="label label-success">Логін</label>
+                                <input class="form-control input-sm width-max navbar-btn" placeholder="Введіть логін"
+                                       type='text' ng-model="newEntity.username" ng-minlength="4" required
+                                       id="addLogin">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="addEmail" class="label label-success">Електронна пошта</label>
+                                <input class="form-control input-sm width-max navbar-btn"
+                                       placeholder="Введіть елетронну пошту" type='email' ng-model="newEntity.email"
+                                       required id="addEmail">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="addPassword" class="label label-success">Пароль</label>
+                                <input class="form-control input-sm width-max navbar-btn" placeholder="Введіть пароль"
+                                       type='password' ng-model="newEntity.password" ng-minlength="4" required
+                                       id="addPassword">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="addConfirmPassword" class="label label-success">Підтвердження пароля</label>
+                                <input class="form-control input-sm width-max navbar-btn" placeholder="Повторіть пароль"
+                                       type='password' ng-model="newEntity.password_confirm" ng-minlength="4" required
+                                       compare-to="newEntity.password" id="addConfirmPassword">
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <button type="submit" class="btn btn-success pull-right width-max navbar-btn"
+                                        ng-disabled="addForm.$invalid" ng-click="addEntity()">Додати
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div ng-show="!entities">{{noData}}</div>
+                <!-- The table for list of Entities -->
+                <div class="table-responsive">
+                    <table ng-show="entities" class="table table-hover .table-condensed">
+                        <thead>
+                        <tr>
+                            <th>№</th>
+                            <th class="col-md-2 clickable" ng-click="sortType = 'name'; sortReverse = !sortReverse">
+                                Логін
+                                <i ng-show="sortType == 'name' && !sortReverse"
+                                   class="glyphicon glyphicon-chevron-down"></i>
+                                <i ng-show="sortType == 'name' && sortReverse"
+                                   class="glyphicon glyphicon-chevron-up"></i>
+                            </th>
+                            <th class="col-md-2 clickable" ng-click="sortType = 'email'; sortReverse = !sortReverse">
+                                Електронна пошта
+                                <i ng-show="sortType == 'email' && !sortReverse"
+                                   class="glyphicon glyphicon-chevron-down"></i>
+                                <i ng-show="sortType == 'email' && sortReverse"
+                                   class="glyphicon glyphicon-chevron-up"></i>
+                            </th>
+                            <th class="col-md-2"></th>
+                            <th class="col-md-2"></th>
+                            <th class="col-md-2 usCenter">Дії</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="entity != editingEntity"
+                            ng-repeat-start="entity in entities | filter:searchItem | orderBy:sortType:sortReverse">
+                            <!-- read-only cells -->
+                            <td>{{$index + 1}}</td>
+                            <td class="col-md-3">{{entity.username}}</td>
+                            <td class="col-md-3">{{entity.email}}</td>
+                            <td class="col-md-2"></td>
+                            <td class="col-md-2"></td>
+                            <td class="col-md-2 usCenter">
+                                <actions-buttons-drct></actions-buttons-drct>
+                            </td>
+                        </tr>
+                        <tr ng-if="entity == editingEntity" ng-repeat-end="">
+                            <td>{{$index + 1}}</td>
+                            <td><input class="form-control input-sm width-max navbar-btn" type='text'
+                                       ng-model="editedEntity.new_username" ng-minlength="4"></td>
+                            <td><input class="form-control input-sm width-max navbar-btn" type='email'
+                                       ng-model="editedEntity.new_email"></td>
+                            <td><input class="form-control input-sm width-max navbar-btn" placeholder="Введіть пароль"
+                                       type='password' ng-model="editedEntity.new_password" ng-minlength="4"></td>
+                            <td><input class="form-control input-sm width-max navbar-btn" placeholder="Повторіть пароль"
+                                       type='password' ng-model="editedEntity.new_password_confirm" ng-minlength="4">
+                            </td>
+                            <td class="usCenter">
+                                <editing-buttons-drct></editing-buttons-drct>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- The modal to confirm removing of Entity -->
+                <deleting-modal-drct></deleting-modal-drct>
+                <!-- The modal to inform about error from server -->
+                <inform-modal-drct></inform-modal-drct>
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
