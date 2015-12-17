@@ -12,11 +12,11 @@
           <thead>
             <tr>
             <th>№</th>
-            <th class="col-md-3 clickable" ng-click="sortType = 'test_id'; sortReverse = !sortReverse">Тест
+            <th class="col-md-4 clickable" ng-click="sortType = 'test_id'; sortReverse = !sortReverse">Тест
               <i ng-show="sortType == 'test_id' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
               <i ng-show="sortType == 'test_id' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
             </th>
-            <th class="col-md-3 clickable" ng-click="sortType = 'test_id'; sortReverse = !sortReverse">Предмет
+            <th class="col-md-4 clickable" ng-click="sortType = 'test_id'; sortReverse = !sortReverse">Предмет
               <i ng-show="sortType == 'test_id' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
               <i ng-show="sortType == 'test_id' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
             </th>
@@ -28,22 +28,16 @@
               <i ng-show="sortType == 'test_id' && !sortReverse" class="glyphicon glyphicon-chevron-down"></i>
               <i ng-show="sortType == 'test_id' && sortReverse" class="glyphicon glyphicon-chevron-up"></i>
             </th>
-            <th class="col-md-2 usCenter">Дії</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="entity in entities | filter:searchItem | orderBy:sortType:sortReverse" id="row{{$index + 1}}">
             <!-- read-only cells -->
             <td>{{$index + 1}}</td>
-            <td class="col-md-3">{{entity.test_name}}</td>
-            <td class="col-md-3">{{entity.subject_name}}</td>
+            <td class="col-md-4">{{entity.test_name}}</td>
+            <td class="col-md-4">{{entity.subject_name}}</td>
             <td class="col-md-2">{{entity.session_date}}</td>
             <td class="col-md-2">{{entity.result}}%</td>
-            <td class="col-md-2 usCenter">
-              <button class="btn btn-sm btn-danger" ng-click="activateEntity($event, entity)">
-              <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </td>
             </tr>
           </tbody>
         </table>
