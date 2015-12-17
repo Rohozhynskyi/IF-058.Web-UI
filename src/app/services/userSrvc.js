@@ -1,4 +1,4 @@
-testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, baseUrl, $q) {
+testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', '$state', function ($http, baseUrl, $q, $state) {
     var testData = {
         startTime: '',
         questionList: '',
@@ -20,13 +20,14 @@ testPlayerApp.factory('userSrvc', ['$http', 'baseUrl', '$q', function ($http, ba
                 testData.timeForTest = test[0].data[0].time_for_test;
                 if (test[0].data[0].attempts < test[1]) {
                     alert('Немає предметів з доступними тестами для вашої групи');
+                    $state.go('user.subjects');
                 }
                 var url = 'TestDetail/getTestDetailsByTest/';
                 return getInfoHelper(url, id)
             }).then(function (resp) {
                 if (!resp.data[0].id) {
                     alert('Немає деталей тесту');
-                    return
+                    $state.go('user.subjects');
                 } else {
                     for (var i = 0; i < resp.data.length; i++) {
                         testData.maxAvilable += resp.data[i].tasks * resp.data[i].rate;
